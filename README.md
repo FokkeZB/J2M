@@ -1,6 +1,6 @@
 # J2M
 ## JIRA to MarkDown text format converter
-Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Just because I got tierd of reformatting text between GitHub (PR's) and JIRA.
+Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Just because I got tired of reformatting text between GitHub (PR's) and JIRA.
 
 ## Website
 Use J2M online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/) (updated automagically)
