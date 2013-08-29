@@ -13,17 +13,17 @@ function toM() {
     return to + content + to;
   });
 
-  converted = converted.replace(/\{\{(.*)\}\}/g, '`$1`');
-  converted = converted.replace(/\?\?(.*)\?\?/g, '<cite>$1</cite>');
-  converted = converted.replace(/-(.*)-/g, '~~$1~~');
-  converted = converted.replace(/\+(.*)\+/g, '<ins>$1</ins>');
-  converted = converted.replace(/\^(.*)\^/g, '<sup>$1</sup>');
-  converted = converted.replace(/~(.*)~/g, '<sub>$1</sub>');
+  converted = converted.replace(/\{\{(.*?)\}\}/g, '`$1`');
+  converted = converted.replace(/\?\?(.*?)\?\?/g, '<cite>$1</cite>');
+  converted = converted.replace(/-(.*?)-/g, '~~$1~~');
+  converted = converted.replace(/\+(.*?)\+/g, '<ins>$1</ins>');
+  converted = converted.replace(/\^(.*?)\^/g, '<sup>$1</sup>');
+  converted = converted.replace(/~(.*?)~/g, '<sub>$1</sub>');
 
   converted = converted.replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```');
 
-  converted = converted.replace(/\[(.+)\|(.+)\]/g, '[$1]($2)');
-  converted = converted.replace(/\[(.+)\]([^\(]*)/g, '<$1>$2');
+  converted = converted.replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)');
+  converted = converted.replace(/\[(.+?)\]([^\(]*)/g, '<$1>$2');
 
   m.setValue(converted);
 }
@@ -44,15 +44,15 @@ m.getSession().setMode("ace/mode/markdown");
 function toJ() {
   converted = m.getValue();
 
-  converted = converted.replace(/^(.*)\n([=-])+$/gm, function (match,content,level) {
+  converted = converted.replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
     return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content;
   });
 
-  converted = converted.replace(/^([#]+)(.*)$/gm, function (match,level,content) {
+  converted = converted.replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
     return 'h' + level.length + '.' + content;
   });
 
-  converted = converted.replace(/([*_]+)(.*)\1/g, function (match,wrapper,content) {
+  converted = converted.replace(/([*_]+)(.*?)\1/g, function (match,wrapper,content) {
     var to = (wrapper.length === 1) ? '_' : '*';
     return to + content + to;
   });
@@ -65,13 +65,13 @@ function toJ() {
     sub: '~'
   };
 
-  converted = converted.replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*)<\/\\1>', 'g'), function (match,from,content) {
+  converted = converted.replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
     console.log(from);
     var to = map[from];
     return to + content + to;
   });
 
-  converted = converted.replace(/~~(.*)~~/g, '-$1-');
+  converted = converted.replace(/~~(.*?)~~/g, '-$1-');
   
   converted = converted.replace(/```([a-z]+)?([^]*)```/gm, function(match,synt,content) {
     var code = '{code';
@@ -85,10 +85,10 @@ function toJ() {
     return code;
   });
 
-  converted = converted.replace(/`(.*)`/g, '{{$1}}');
+  converted = converted.replace(/`(.*?)`/g, '{{$1}}');
 
-  converted = converted.replace(/\[(.+)\]\((.+)\)/g, '[$1|$2]');
-  converted = converted.replace(/<(.+)>/g, '[$1]');
+  converted = converted.replace(/\[(.+?)\]\((.+)\)/g, '[$1|$2]');
+  converted = converted.replace(/<(.+?)>/g, '[$1]');
 
   j.setValue(converted);
 }
