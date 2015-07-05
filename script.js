@@ -13,12 +13,12 @@ function toM() {
     return to + content + to;
   });
 
-  converted = converted.replace(/\{\{(.*?)\}\}/g, '`$1`');
-  converted = converted.replace(/\?\?(.*?)\?\?/g, '<cite>$1</cite>');
-  converted = converted.replace(/\+(.*?)\+/g, '<ins>$1</ins>');
-  converted = converted.replace(/\^(.*?)\^/g, '<sup>$1</sup>');
-  converted = converted.replace(/~(.*?)~/g, '<sub>$1</sub>');
-  converted = converted.replace(/-(.*?)-/g, '~~$1~~');
+  converted = converted.replace(/\{\{([^}]+)\}\}/g, '`$1`');
+  converted = converted.replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>');
+  converted = converted.replace(/\+([^+]*)\+/g, '<ins>$1</ins>');
+  converted = converted.replace(/\^([^^]*)\^/g, '<sup>$1</sup>');
+  converted = converted.replace(/~([^~]*)~/g, '<sub>$1</sub>');
+  converted = converted.replace(/-([^-]*)-/g, '~~$1~~');
 
   converted = converted.replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```');
 
@@ -72,8 +72,8 @@ function toJ() {
   });
 
   converted = converted.replace(/~~(.*?)~~/g, '-$1-');
-  
-  converted = converted.replace(/```([a-z]+)?([^]*)```/gm, function(match,synt,content) {
+
+  converted = converted.replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function(match, synt, content) {
     var code = '{code';
 
     if (synt) {
@@ -85,10 +85,10 @@ function toJ() {
     return code;
   });
 
-  converted = converted.replace(/`(.*?)`/g, '{{$1}}');
+  converted = converted.replace(/`([^`]+)`/g, '{{$1}}');
 
-  converted = converted.replace(/\[(.+?)\]\((.+)\)/g, '[$1|$2]');
-  converted = converted.replace(/<(.+?)>/g, '[$1]');
+  converted = converted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]');
+  converted = converted.replace(/<([^>]+)>/g, '[$1]');
 
   j.setValue(converted);
 }
