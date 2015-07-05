@@ -72,8 +72,8 @@ function toJ() {
   });
 
   converted = converted.replace(/~~(.*?)~~/g, '-$1-');
-  
-  converted = converted.replace(/```([a-z]+)?([^]*)```/gm, function(match,synt,content) {
+
+  converted = converted.replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function(match, synt, content) {
     var code = '{code';
 
     if (synt) {
