@@ -25,6 +25,8 @@ function toM() {
   converted = converted.replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)');
   converted = converted.replace(/\[(.+?)\]([^\(]*)/g, '<$1>$2');
 
+  converted = converted.replace(/{noformat}/g, '```');
+
   m.setValue(converted);
 }
   
