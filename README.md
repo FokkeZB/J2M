@@ -33,7 +33,10 @@ h2. H2
 [http://google.com]
 ```
 
+### Examples
+
 ```javascript
+// Include the module
 var j2m = require('jira2md');
 
 // If converting from Mardown to Jira Wiki Syntax:
