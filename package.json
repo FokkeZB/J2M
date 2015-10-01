@@ -1,0 +1,23 @@
+{
+  "name": "jira2md",
+  "version": "1.0.0",
+  "keywords": [
+    "jira",
+    "atlassian",
+    "wiki",
+    "markdown"
+  ],
+  "homepage": "http://github.com/kylefarris/J2M.git",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/kylefarris/J2M.git"
+  },
+  "description": "JIRA to MarkDown text format converter.",
+  "main": "index.js",
+  "dependencies": {},
+  "author": "Fokke Zandbergen <mail@fokkezb.nl>",
+  "contributors": [
+    "Kyle Farris <kyle@chomponllc.com>"
+  ],
+  "license": "Apache-2.0"
+}

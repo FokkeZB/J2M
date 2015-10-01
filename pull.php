@@ -1,3 +1,0 @@
-<?
-
-system('git pull');

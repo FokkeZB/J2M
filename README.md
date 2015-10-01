@@ -1,31 +1,44 @@
-# J2M
+# jira2md
+
 ## JIRA to MarkDown text format converter
-Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Just because I got tired of reformatting text between GitHub (PR's) and JIRA.
+Convert from JIRA text formatting to GitHub Flavored MarkDown and back again.
 
 ## Website
-Use J2M online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/) (updated automagically)
+Try `jira2md` online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/) (updated automagically)
 
-## Roadmap
-I hope to extend TiCons with the following features:
+## Installation
+npm install jira2md
 
-* Add as much syntax support as time allows me and need drives me :)
+## How to Use
 
-Feel free to [mail](mail@fokkezb.nl) me or fork the code and send a pull-request.
+### Markdown String
 
-## License
+We'll refer to this as the `md` variable in the examples below.
 
-<pre>
-Copyright 2013 Fokke Zandbergen
+```
+**Some bold things**
+*Some italic stuff*
+## H2
+<http://google.com>
+```
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+### Atlassian Wiki Syntax
 
-   http://www.apache.org/licenses/LICENSE-2.0
+We'll refer to this as the `jira` variable in the examples below.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</pre>
+```
+*Some bold things**
+_Some italic stuff_
+h2. H2
+[http://google.com]
+```
+
+```javascript
+var j2m = require('jira2md');
+
+// If converting from Mardown to Jira Wiki Syntax:
+var jira = j2m.to_jira(md);
+
+// If converting from Jira Wiki Syntax to Mardown:
+var md = j2m.to_jira(jira);
+```
