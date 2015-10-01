@@ -19,6 +19,8 @@ J2M.prototype.to_markdown = function(str) {
             var to = (wrapper === '*' ? '**' : '*');
             return to + content + to;
         })
+        // Em Dash
+        .replace(/-{3}[^-]*/g, '&mdash;')
         // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
         // Citations

@@ -83,4 +83,8 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
         markdown.should.eql("1. Foo\n1. Bar\n1. Baz\n 1. FooBar\n 1. BarBaz\n  1. FooBarBaz\n1. Starting Over");
     });
+    it('should convert em-dashes properly', function() {
+        var markdown = j2m.to_markdown("This is an---em dash!");
+        markdown.should.eql("This is an&mdash;em dash!");
+    });
 });
