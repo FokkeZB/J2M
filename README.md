@@ -4,7 +4,7 @@
 Convert from JIRA text formatting to GitHub Flavored MarkDown and back again.
 
 ## Website
-Try `jira2md` online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/) (updated automagically)
+Try `jira2md` online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/)
 
 ## Installation
 npm install jira2md
