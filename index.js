@@ -2,23 +2,45 @@ var J2M = function() {};
 
 J2M.prototype.to_markdown = function(str) {
     return str
+        // Ordered Lists
+        .replace(/^\s*(\*+)\s+/gm, function(match, stars) {
+            return Array(stars.length).join(" ") + '* ';
+        })
+        // Un-ordered lists
+        .replace(/^\s*(#+)\s+/gm, function(match, nums) {
+            return Array(nums.length).join(" ") + '1. ';
+        })
+        // Headers 1-6
         .replace(/^h([0-6])\.(.*)$/gm, function (match, level, content) {
             return Array(parseInt(level) + 1).join('#') + content;
         })
+        // Bold and Italics
         .replace(/([*_])(.*)\1/g, function (match,wrapper,content) {
             var to = (wrapper === '*' ? '**' : '*');
             return to + content + to;
         })
+        // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
+        // Citations
         .replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
+        // Inserts
         .replace(/\+([^+]*)\+/g, '<ins>$1</ins>')
+        // Superscript
         .replace(/\^([^^]*)\^/g, '<sup>$1</sup>')
+        // Subscript
         .replace(/~([^~]*)~/g, '<sub>$1</sub>')
+        // Strikethrough
         .replace(/-([^-]*)-/g, '~~$1~~')
+        // Code Block
         .replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```')
+        // Pre-formatted text
+        .replace(/{noformat}/g, '```')
+        // Un-named Links
+        .replace(/\[([^|]+)\]/g, '<$1>')
+        // Named Links
         .replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)')
-        .replace(/\[(.+?)\]([^\(]*)/g, '<$1>$2')
-        .replace(/{noformat}/g, '```');
+        // Blockquotes
+        .replace(/^bq\.\s+/gm, '> ');
 };
 
 J2M.prototype.to_jira = function(str) {
@@ -53,7 +75,8 @@ J2M.prototype.to_jira = function(str) {
         })
         .replace(/`([^`]+)`/g, '{{$1}}')
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]')
-        .replace(/<([^>]+)>/g, '[$1]');
+        .replace(/<([^>]+)>/g, '[$1]')
+        .replace(/^>/gm, 'bq.');
 }
 
-module.exports = new JRM();
+module.exports = new J2M();

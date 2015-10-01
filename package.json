@@ -14,7 +14,12 @@
   },
   "description": "JIRA to MarkDown text format converter.",
   "main": "index.js",
-  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.3.0"
+  },
+  "scripts": {
+    "test": "make test"
+  },
   "author": "Fokke Zandbergen <mail@fokkezb.nl>",
   "contributors": [
     "Kyle Farris <kyle@chomponllc.com>"
