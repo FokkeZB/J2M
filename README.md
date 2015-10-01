@@ -43,5 +43,5 @@ var j2m = require('jira2md');
 var jira = j2m.to_jira(md);
 
 // If converting from Jira Wiki Syntax to Mardown:
-var md = j2m.to_jira(jira);
+var md = j2m.to_markdown(jira);
 ```
