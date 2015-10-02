@@ -1,0 +1,55 @@
+h1. Biggest heading
+
+h2. Bigger heading
+
+h1. Biggest heading
+h2. Bigger heading
+h3. Big heading
+h4. Normal heading
+h5. Small heading
+h6. Smallest heading
+
+*strong*
+_emphasis_
+{{monospaced}}
+??citation??
+-deleted-
++inserted+
+^superscript^
+~subscript~
+
+{code:javascript}
+var hello = 'world';
+{code}
+
+[http://google.com]
+[Google|http://google.com]
+
+GitHub Flavor
+-deleted-
+
+{code}
+  preformatted piece of text
+  so _no_ further _formatting_ is done here
+{code}
+
+_*Should be bold AND italic*_
+
+* First li
+* Second li
+** Indented li
+*** Three rows in li
+* Back to first level li
+
+# First li
+# Second li
+## Indented li
+### Three rows in li
+# Back to first level li
+
+* Here's _italic_ inside li
+* here's *bold* inside li
+* Here's _*bold + italic*_ inside li
+** Here they are in one line indented: _italic_ *bold*
+
+bq. Here's a long single-paragraph block quote. It should look pretty and stuff.

@@ -1,5 +1,7 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
+var fs = require('fs');
+var path = require('path');
 var j2m = require('../index.js');
 
 describe('to_markdown', function() {
@@ -90,5 +92,11 @@ describe('to_markdown', function() {
     it('should handle bold within a un-ordered list item', function() {
         var markdown = j2m.to_markdown("* This is not bold!\n** This is *bold*.");
         markdown.should.eql("* This is not bold!\n * This is **bold**.");
+    });
+    it('should be able to handle a complicated multi-line jira-wiki string and convert it to markdown', function() {
+        var jira_str = fs.readFileSync(path.resolve(__dirname, 'test.jira'),"utf8");
+        var md_str = fs.readFileSync(path.resolve(__dirname, 'test.md'),"utf8");
+        var markdown = j2m.to_markdown(jira_str);
+        markdown.should.eql(md_str);
     });
 });
