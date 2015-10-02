@@ -61,6 +61,13 @@ J2M.prototype.to_jira = function(str) {
                 default: return wrapper + content * wrapper;
             }
          })
+         .replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
+             return 'h' + (level[0] === '=' ? 1 : 2 + '. ' + content);
+         })
+         // All Headers (# format)
+         .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
+             return 'h' + level.length + '.' + content;
+         })
         // Ordered lists
         .replace(/^(\s*)\d+\.\s+/gm, function(match, spaces) {
             return Array(spaces.length + 1).join("#") + '# ';
@@ -70,13 +77,6 @@ J2M.prototype.to_jira = function(str) {
             return Array(spaces.length + 1).join("*") + '* ';
         })
         // Headers (h1 or h2) (lines "underlined" by ---- or =====)
-        .replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
-            return 'h' + (level[0] === '=' ? 1 : 2 + '. ' + content);
-        })
-        // All Headers (# format)
-        .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
-            return 'h' + level.length + '.' + content;
-        })
         // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
         .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
             var to = map[from];
