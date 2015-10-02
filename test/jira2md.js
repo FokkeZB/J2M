@@ -83,8 +83,12 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
         markdown.should.eql("1. Foo\n1. Bar\n1. Baz\n 1. FooBar\n 1. BarBaz\n  1. FooBarBaz\n1. Starting Over");
     });
-    it('should convert em-dashes properly', function() {
-        var markdown = j2m.to_markdown("This is an---em dash!");
-        markdown.should.eql("This is an&mdash;em dash!");
+    it('should handle bold AND italic (combined) correctly', function() {
+        var markdown = j2m.to_markdown("This is _*emphatically bold*_!");
+        markdown.should.eql("This is ***emphatically bold***!");
+    });
+    it('should handle bold within a un-ordered list item', function() {
+        var markdown = j2m.to_markdown("* This is not bold!\n** This is *bold*.");
+        markdown.should.eql("* This is not bold!\n * This is **bold**.");
     });
 });

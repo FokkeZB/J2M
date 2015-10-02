@@ -14,13 +14,10 @@ J2M.prototype.to_markdown = function(str) {
         .replace(/^h([0-6])\.(.*)$/gm, function (match, level, content) {
             return Array(parseInt(level) + 1).join('#') + content;
         })
-        // Bold and Italics
-        .replace(/([*_])(.*)\1/g, function (match,wrapper,content) {
-            var to = (wrapper === '*' ? '**' : '*');
-            return to + content + to;
-        })
-        // Em Dash
-        .replace(/-{3}[^-]*/g, '&mdash;')
+        // Bold
+        .replace(/\*(\S.*)\*/g, '**$1**')
+        // Italic
+        .replace(/\_(\S.*)\_/g, '*$1*')
         // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
         // Citations
@@ -42,7 +39,7 @@ J2M.prototype.to_markdown = function(str) {
         // Named Links
         .replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)')
         // Blockquotes
-        .replace(/^bq\.\s+/gm, '> ');
+        .replace(/^bq\.\s+/gm, '> ')
 };
 
 J2M.prototype.to_jira = function(str) {
