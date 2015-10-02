@@ -38,7 +38,7 @@ J2M.prototype.to_markdown = function(str) {
         .replace(/\[([^|]+)\]/g, '<$1>')
         // Named Links
         .replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)')
-        // Blockquotes
+        // Single Paragraph Blockquote
         .replace(/^bq\.\s+/gm, '> ')
 };
 
@@ -52,29 +52,51 @@ J2M.prototype.to_jira = function(str) {
     };
 
     return str
+        // Ordered lists
+        .replace(/^(\s*)\d+\.\s+/gm, function(match, spaces) {
+            return Array(spaces.length + 1).join("#") + '# ';
+        })
+        // Un-Ordered Lists
+        .replace(/^(\s*)\*\s+/gm, function(match, spaces) {
+            return Array(spaces.length + 1).join("*") + '* ';
+        })
+        // Headers (h1 or h2) (lines "underlined" by ---- or =====)
         .replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
             return 'h' + (level[0] === '=' ? 1 : 2 + '. ' + content);
         })
+        // All Headers (# format)
         .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
             return 'h' + level.length + '.' + content;
         })
-        .replace(/([*_]+)(.*?)\1/g, function (match,wrapper,content) {
-            var to = (wrapper.length === 1 ? '_' : '*');
-            return to + content + to;
-        })
+        // Bold, Italic, and Combined (bold+italic)
+        .replace(/([*_]+)(\S.*?)\1/g, function (match,wrapper,content) {
+            switch (wrapper.length) {
+                case 1: return '_' + content + '_';
+                case 2: return '*' + content + '*';
+                case 3: return '_*' + content + '*_';
+                default: return wrapper + content * wrapper;
+            }
+         })
+        // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
         .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
             var to = map[from];
             return to + content + to;
         })
+        // Other kind of strikethrough
         .replace(/~~(.*?)~~/g, '-$1-')
+        // Named/Un-Named Code Block
         .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function(match, synt, content) {
             var code = '{code';
             if (synt) code += ':' + synt;
             return code + '}' + content + '{code}';
         })
+        // Inline-Preformatted Text
         .replace(/`([^`]+)`/g, '{{$1}}')
+        // Named Link
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]')
+        // Un-Named Link
         .replace(/<([^>]+)>/g, '[$1]')
+        // Single Paragraph Blockquote
         .replace(/^>/gm, 'bq.');
 }
 
