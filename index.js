@@ -52,6 +52,15 @@ J2M.prototype.to_jira = function(str) {
     };
 
     return str
+        // Bold, Italic, and Combined (bold+italic)
+        .replace(/([*_]+)(\S.*?)\1/g, function (match,wrapper,content) {
+            switch (wrapper.length) {
+                case 1: return '_' + content + '_';
+                case 2: return '*' + content + '*';
+                case 3: return '_*' + content + '*_';
+                default: return wrapper + content * wrapper;
+            }
+         })
         // Ordered lists
         .replace(/^(\s*)\d+\.\s+/gm, function(match, spaces) {
             return Array(spaces.length + 1).join("#") + '# ';
@@ -68,15 +77,6 @@ J2M.prototype.to_jira = function(str) {
         .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
             return 'h' + level.length + '.' + content;
         })
-        // Bold, Italic, and Combined (bold+italic)
-        .replace(/([*_]+)(\S.*?)\1/g, function (match,wrapper,content) {
-            switch (wrapper.length) {
-                case 1: return '_' + content + '_';
-                case 2: return '*' + content + '*';
-                case 3: return '_*' + content + '*_';
-                default: return wrapper + content * wrapper;
-            }
-         })
         // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
         .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
             var to = map[from];
