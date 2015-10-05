@@ -38,11 +38,11 @@ GitHub Flavor
 * First li
 * Second li
  * Indented li
-  * Three rows in li
+  * Three columns in li
 * Back to first level li
 
 1. First li
-2. Second li
+1. Second li
  1. Indented li
   1. Three columns in li
 1. Back to first level li

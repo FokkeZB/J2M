@@ -38,13 +38,13 @@ _*Should be bold AND italic*_
 * First li
 * Second li
 ** Indented li
-*** Three rows in li
+*** Three columns in li
 * Back to first level li
 
 # First li
 # Second li
 ## Indented li
-### Three rows in li
+### Three columns in li
 # Back to first level li
 
 * Here's _italic_ inside li

@@ -3,8 +3,8 @@
 ## JIRA to MarkDown text format converter
 Convert from JIRA text formatting to GitHub Flavored MarkDown and back again.
 
-## Website
-Try `jira2md` online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/)
+## Credits
+This module was heavily inspired by the J2M project by Fokke Zandbergen (http://j2m.fokkezb.nl/). Major credit to Fokke (and other contributors) for establishing a lot of the fundamental RexExp patterns for this module to work.
 
 ## Installation
 npm install jira2md

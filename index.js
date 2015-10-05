@@ -3,11 +3,11 @@ var J2M = function() {};
 J2M.prototype.to_markdown = function(str) {
     return str
         // Ordered Lists
-        .replace(/^\s*(\*+)\s+/gm, function(match, stars) {
+        .replace(/^[ \t]*(\*+)\s+/gm, function(match, stars) {
             return Array(stars.length).join(" ") + '* ';
         })
         // Un-ordered lists
-        .replace(/^\s*(#+)\s+/gm, function(match, nums) {
+        .replace(/^[ \t]*(#+)\s+/gm, function(match, nums) {
             return Array(nums.length).join(" ") + '1. ';
         })
         // Headers 1-6
@@ -61,19 +61,20 @@ J2M.prototype.to_jira = function(str) {
                 default: return wrapper + content * wrapper;
             }
          })
-         .replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
-             return 'h' + (level[0] === '=' ? 1 : 2 + '. ' + content);
-         })
          // All Headers (# format)
          .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
              return 'h' + level.length + '.' + content;
          })
+         // Headers (H1 and H2 underlines)
+         .replace(/^(.*?)\n([=-]+)$/gm, function (match,content,level) {
+             return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content
+         })
         // Ordered lists
-        .replace(/^(\s*)\d+\.\s+/gm, function(match, spaces) {
+        .replace(/^([ \t]*)\d+\.\s+/gm, function(match, spaces) {
             return Array(spaces.length + 1).join("#") + '# ';
         })
         // Un-Ordered Lists
-        .replace(/^(\s*)\*\s+/gm, function(match, spaces) {
+        .replace(/^([ \t]*)\*\s+/gm, function(match, spaces) {
             return Array(spaces.length + 1).join("*") + '* ';
         })
         // Headers (h1 or h2) (lines "underlined" by ---- or =====)

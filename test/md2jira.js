@@ -73,6 +73,12 @@ describe('to_jira', function() {
         h5.should.eql("h5. Small heading");
         h6.should.eql("h6. Smallest heading");
     });
+    it('should convert underline-style headers properly', function() {
+        var h1 = j2m.to_jira("Biggest heading\n=======");
+        var h2 = j2m.to_jira("Bigger heading\n------");
+        h1.should.eql("h1. Biggest heading");
+        h2.should.eql("h2. Bigger heading");
+    });
     it('should convert blockquotes properly', function() {
         var jira = j2m.to_jira("> This is a long blockquote type thingy that needs to be converted.");
         jira.should.eql("bq. This is a long blockquote type thingy that needs to be converted.");
