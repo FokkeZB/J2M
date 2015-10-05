@@ -9,6 +9,28 @@ This module was heavily inspired by the J2M project by Fokke Zandbergen (http://
 ## Installation
 npm install jira2md
 
+## Supported Conversions
+NOTE: All conversion work bi-directionally (from jira to markdown and back again).
+
+* Headers (H1-H6)
+* Bold
+* Italic
+* Bold + Italic
+* Un-ordered lists
+* Ordered lists
+* Programming Language-specific code blocks
+* Inline preformatted text spans
+* Un-named links
+* Named links
+* Monospaced Text
+* Citations
+* Strikethroughs
+* Inserts
+* Superscripts
+* Subscripts
+* Single-paragraph blockquotes
+
+
 ## How to Use
 
 ### Markdown String
