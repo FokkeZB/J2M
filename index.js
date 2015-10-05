@@ -29,7 +29,7 @@ J2M.prototype.to_markdown = function(str) {
         // Subscript
         .replace(/~([^~]*)~/g, '<sub>$1</sub>')
         // Strikethrough
-        .replace(/-([^-]*)-/g, '~~$1~~')
+        .replace(/-([^-\n]*)-/g, '~~$1~~')
         // Code Block
         .replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```')
         // Pre-formatted text

@@ -99,4 +99,8 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown(jira_str);
         markdown.should.eql(md_str);
     });
+    it('should not recognize strikethroughs over multiple lines', function() {
+        var markdown = j2m.to_markdown("* Here's an un-ordered list line\n* Multi-line strikethroughs shouldn't work.");
+        markdown.should.eql("* Here's an un-ordered list line\n* Multi-line strikethroughs shouldn't work.");
+    });
 });
