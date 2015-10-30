@@ -1,4 +1,13 @@
+var marked = require('marked');
 var J2M = function() {};
+
+J2M.prototype.md_to_html = function(str) {
+	return marked(str);
+}
+
+J2M.prototype.jira_to_html = function(str) {
+	return marked(this.to_markdown(str));
+}
 
 J2M.prototype.to_markdown = function(str) {
     return str

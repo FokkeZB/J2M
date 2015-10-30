@@ -24,5 +24,8 @@
   "contributors": [
     "Kyle Farris <kyle@chomponllc.com>"
   ],
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "marked": "^0.3.5"
+  }
 }
