@@ -1,13 +1,15 @@
 # jira2md
 
 ## JIRA to MarkDown text format converter
-Convert from JIRA text formatting to GitHub Flavored MarkDown and back again.
+Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Also allows for both to be converted to HTML.
 
 ## Credits
 This module was heavily inspired by the J2M project by Fokke Zandbergen (http://j2m.fokkezb.nl/). Major credit to Fokke (and other contributors) for establishing a lot of the fundamental RexExp patterns for this module to work.
 
 ## Installation
+```
 npm install jira2md
+```
 
 ## Supported Conversions
 NOTE: All conversion work bi-directionally (from jira to markdown and back again).
@@ -64,6 +66,12 @@ var j2m = require('jira2md');
 // If converting from Mardown to Jira Wiki Syntax:
 var jira = j2m.to_jira(md);
 
-// If converting from Jira Wiki Syntax to Mardown:
+// If converting from Jira Wiki Syntax to Markdown:
 var md = j2m.to_markdown(jira);
+
+// If converting from Markdown to HTML:
+var html = j2m.md_to_html(md);
+
+// If converting from JIRA Wiki Syntax to HTML:
+var html = j2m.jira_to_html(jira);
 ```
