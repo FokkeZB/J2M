@@ -53,3 +53,11 @@ _*Should be bold AND italic*_
 ** Here they are in one line indented: _italic_ *bold*
 
 bq. Here's a long single-paragraph block quote. It should look pretty and stuff.
+
+{panel:title=A title}
+Panel text
+{panel}
+
+||Heading 1||Heading 2||
+|Col A1|Col A2|
+|Col B1|Col B2|

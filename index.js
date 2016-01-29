@@ -8,11 +8,11 @@ var J2M = function() {};
 
 J2M.prototype.md_to_html = function(str) {
 	return marked(str);
-}
+};
 
 J2M.prototype.jira_to_html = function(str) {
 	return marked(this.to_markdown(str));
-}
+};
 
 J2M.prototype.to_markdown = function(str) {
     return str
@@ -54,6 +54,18 @@ J2M.prototype.to_markdown = function(str) {
         .replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)')
         // Single Paragraph Blockquote
         .replace(/^bq\.\s+/gm, '> ')
+        // Remove color: unsupported in md
+        .replace(/\{color:[^}]+\}([^]*)\{color\}/gm, '$1')
+        // panel into table
+        .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '| $1 |\n| --- |\n| $2 |')
+        // table header
+        .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (match, headers) {
+            var singleBarred =  headers.replace(/\|\|/g,'|');
+            return singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
+        })
+        // remove leading-space of table headers and rows
+        .replace(/^[ \t]*\|/gm, '|');
+
 };
 
 J2M.prototype.to_jira = function(str) {
@@ -81,7 +93,7 @@ J2M.prototype.to_jira = function(str) {
          })
          // Headers (H1 and H2 underlines)
          .replace(/^(.*?)\n([=-]+)$/gm, function (match,content,level) {
-             return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content
+             return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content;
          })
         // Ordered lists
         .replace(/^([ \t]*)\d+\.\s+/gm, function(match, spaces) {
@@ -112,7 +124,26 @@ J2M.prototype.to_jira = function(str) {
         // Un-Named Link
         .replace(/<([^>]+)>/g, '[$1]')
         // Single Paragraph Blockquote
-        .replace(/^>/gm, 'bq.');
-}
+        .replace(/^>/gm, 'bq.')
+        // tables
+        .replace(/^((?:\|.*?)+\|)[ \t]*\n((?:\|\s*?\-{3,}\s*?)+\|)[ \t]*\n((?:(?:\|.*?)+\|[ \t]*\n)*)$/gm,
+                 function (match, headerLine, separatorLine, rowstr) {
+                     var headers = headerLine.match(/[^|]+(?=\|)/g);
+                     var separators = separatorLine.match(/[^|]+(?=\|)/g);
+                     if (headers.length !== separators.length) {
+                         return match;
+                     }
+                     var rows = rowstr.split('\n');
+                     if (rows.length === 1 + 1 && headers.length === 1) {
+                         // panel
+                         return '{panel:title=' + headers[0].trim() + '}\n' +
+                             rowstr.replace(/^\|(.*)[ \t]*\|/, '$1').trim() +
+                             '\n{panel}\n';
+                     } else {
+                         return '||' + headers.join('||') + '||\n' + rowstr;
+                     }
+                 });
+
+};
 
 module.exports = new J2M();
