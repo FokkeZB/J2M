@@ -57,11 +57,11 @@ J2M.prototype.to_markdown = function(str) {
         // Remove color: unsupported in md
         .replace(/\{color:[^}]+\}([^]*)\{color\}/gm, '$1')
         // panel into table
-        .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '| $1 |\n| --- |\n| $2 |')
+        .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '\n| $1 |\n| --- |\n| $2 |')
         // table header
         .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (match, headers) {
             var singleBarred =  headers.replace(/\|\|/g,'|');
-            return singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
+            return '\n' + singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
         })
         // remove leading-space of table headers and rows
         .replace(/^[ \t]*\|/gm, '|');
@@ -126,7 +126,7 @@ J2M.prototype.to_jira = function(str) {
         // Single Paragraph Blockquote
         .replace(/^>/gm, 'bq.')
         // tables
-        .replace(/^((?:\|.*?)+\|)[ \t]*\n((?:\|\s*?\-{3,}\s*?)+\|)[ \t]*\n((?:(?:\|.*?)+\|[ \t]*\n)*)$/gm,
+        .replace(/^\n((?:\|.*?)+\|)[ \t]*\n((?:\|\s*?\-{3,}\s*?)+\|)[ \t]*\n((?:(?:\|.*?)+\|[ \t]*\n)*)$/gm,
                  function (match, headerLine, separatorLine, rowstr) {
                      var headers = headerLine.match(/[^|]+(?=\|)/g);
                      var separators = separatorLine.match(/[^|]+(?=\|)/g);

@@ -54,9 +54,11 @@ GitHub Flavor
 
 > Here's a long single-paragraph block quote. It should look pretty and stuff.
 
+
 | A title |
 | --- |
 | Panel text |
+
 
 |Heading 1|Heading 2|
 | --- | --- |
