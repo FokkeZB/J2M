@@ -31,6 +31,8 @@ NOTE: All conversion work bi-directionally (from jira to markdown and back again
 * Superscripts
 * Subscripts
 * Single-paragraph blockquotes
+* Tables (thanks to erykwarren)
+* Panels (thanks to erykwarren)
 
 
 ## How to Use
