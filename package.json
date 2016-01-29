@@ -22,7 +22,8 @@
   },
   "author": "Fokke Zandbergen <mail@fokkezb.nl>",
   "contributors": [
-    "Kyle Farris <kyle@chomponllc.com>"
+    "Kyle Farris <kyle@chomponllc.com>",
+	"Eryk Warren <https://github.com/erykwarren>"
   ],
   "license": "Apache-2.0",
   "dependencies": {
