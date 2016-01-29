@@ -103,4 +103,8 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown("* Here's an un-ordered list line\n* Multi-line strikethroughs shouldn't work.");
         markdown.should.eql("* Here's an un-ordered list line\n* Multi-line strikethroughs shouldn't work.");
     });
+    it('should remove color attributes', function() {
+        var markdown = j2m.to_markdown("A text with{color:blue} blue \n lines {color} is not necessary.");
+        markdown.should.eql("A text with blue \n lines  is not necessary.");
+    });
 });
