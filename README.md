@@ -2,6 +2,61 @@
 ## JIRA to MarkDown text format converter
 Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Just because I got tired of reformatting text between GitHub (PR's) and JIRA.
 
+
+## Library
+### Installation
+The J2M library is available via bower (for frontend usage) and npm (for node usage):
+
+```
+$ bower install J2M --save
+```
+```
+$ npm install j2m --save
+```
+
+### Usage
+J2M exposes 2 methods: `toJ` and `toM` for converting to Jira markup and to markdown.
+
+- `J2M.toJ(markdown : string) : string`
+- `J2M.toM(jira : string) : string`
+
+#### Usage Example:
+```JavaScript
+var J2M = require('J2M');
+
+var input = '## cool markdown';
+var jira = J2M.toJ(input);
+var markdownAgain = J2M.toM(jira);
+```
+
+
+## CLI
+J2M is also available as a command line utility.
+
+### Installation
+```
+$ npm install -g j2m
+```
+
+### Usage
+```
+$ j2m [--toM|--toJ] [--stdin] $filename 
+
+Options: 
+--toM, -m:    Treat input as jira text and convert it to Markdown 
+--toJ, -j:    Treat input as markdown text and convert it to Jira 
+--stdin:      Read input from stdin. In this case the give filename is ignored 
+```
+
+#### Usage Example
+```bash
+# convert notes to jira markup and copy it to the clipboard (mac)
+j2m --toJ notes.md | pbcopy
+
+# retrieve some file in jira markup and save it as markdown
+curl http://someserver.com/jira.txt | j2m --toM --stdin > notee.md
+```
+
 ## Website
 Use J2M online at: [http://j2m.fokkezb.nl/](http://j2m.fokkezb.nl/) (updated automagically)
 

@@ -1,0 +1,28 @@
+{
+  "name": "J2M",
+  "homepage": "https://github.com/FokkeZB/J2M",
+  "authors": [
+    "Fokke Zandbergen <mail@fokkezb.nl>"
+  ],
+  "description": "Convert from JIRA text formatting to GitHub Flavored MarkDown and back again",
+  "main": "src/J2M.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "jira",
+    "atlassian",
+    "markdown",
+    "convert"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "site"
+  ]
+}
