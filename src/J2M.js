@@ -54,6 +54,14 @@
 			var to = (wrapper.length === 1) ? '_' : '*';
 			return to + content + to;
 		});
+		// Make multi-level bulleted lists work
+  		input = input.replace(/^(\s*)- (.*)$/gm, function (match,level,content) {
+    			var len = 2;
+    			if(level.length > 0) {
+        			len = parseInt(level.length/4.0) + 2;
+    			}
+    			return Array(len).join("-") + ' ' + content;
+  		});
 
 		var map = {
 			cite: '??',
