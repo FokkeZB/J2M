@@ -35,7 +35,7 @@ J2M.prototype.to_markdown = function(str) {
         // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
         // Citations
-        .replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
+        //.replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
         // Inserts
         .replace(/\+([^+]*)\+/g, '<ins>$1</ins>')
         // Superscript
