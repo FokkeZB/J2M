@@ -11,6 +11,7 @@
 	jiraInput.setTheme('ace/theme/twilight');
 	markdownInput.setTheme('ace/theme/twilight');
 	markdownInput.getSession().setMode('ace/mode/markdown');
+	markdownInput.getSession().setUseWrapMode(true);
 
 	var jiraCallback = function () {
 		var markdown = J2M.toM(jiraInput.getValue());
