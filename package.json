@@ -1,6 +1,6 @@
 {
   "name": "j2m",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert from JIRA text formatting to GitHub Flavored MarkDown and back again",
   "main": "src/J2M.js",
   "scripts": {
