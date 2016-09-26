@@ -41,6 +41,23 @@
 	 * @returns {string}
 	 */
 	function toJ(input) {
+		// remove sections that shouldn't recursively processed
+		var START = 'J2MBLOCKPLACEHOLDER';
+		var replacementsList = [];
+		var counter = 0;
+		
+		input = input.replace(/`{3,}(\w+)?((?:\n|.)+?)`{3,}/g, function(match, synt, content) {
+		    var code = '{code';
+		
+		    if (synt) {
+		        code += ':' + synt;
+		    }
+		
+		    code += '}' + content + '{code}';
+		    var key = START + counter++ + '%%';
+		    replacementsList.push({key: key, value: code});
+		    return key;
+		});
 
 		input = input.replace(/^(.*?)\n([=-])+$/gm, function (match,content,level) {
 			return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content;
@@ -79,22 +96,16 @@
 
 		input = input.replace(/~~(.*?)~~/g, '-$1-');
 
-		input = input.replace(/`{3,}(\w+)?((?:\n|.)+?)`{3,}/g, function(match, synt, content) {
-			var code = '{code';
-
-			if (synt) {
-				code += ':' + synt;
-			}
-
-			code += '}' + content + '{code}';
-
-			return code;
-		});
-
 		input = input.replace(/`([^`]+)`/g, '{{$1}}');
 
 		input = input.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]');
 		input = input.replace(/<([^>]+)>/g, '[$1]');
+
+		// restore extracted sections
+		for(var i =0; i < replacementsList.length; i++){
+		    var sub = replacementsList[i];
+		    input = input.replace(sub["key"], sub["value"]);
+		}
 
 		return input;
 	};
