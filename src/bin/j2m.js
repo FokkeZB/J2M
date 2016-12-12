@@ -4,6 +4,7 @@ var J2M = require('../J2M');
 var settings = require('./settings');
 
 var readline = require('readline');
+var endOfLine = require('os').EOL;
 var fs = require('fs');
 
 var colors = require('colors');
@@ -38,7 +39,7 @@ if (settings.stdin) {
 		terminal: false
 	});
 	rl.on('line', function(line){
-		input += line;
+		input += line + endOfLine;
 	});
 
 	rl.on('close', function() {
