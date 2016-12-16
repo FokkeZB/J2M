@@ -31,6 +31,39 @@
 
 		input = input.replace(/{noformat}/g, '```');
 
+		// Convert header rows of tables by splitting input on lines
+		lines = input.split(/\r?\n/gm);
+		lines_to_remove = []
+		for (var i = 0; i < lines.length; i++) {
+			line_content = lines[i];
+
+			seperators = line_content.match(/\|\|/g);
+			if (seperators != null) {
+				lines[i] = lines[i].replace(/\|\|/g, "|");
+				console.log(seperators)
+
+				// Add a new line to mark the header in Markdown,
+				// we require that at least 3 -'s are between each |
+				header_line = "";
+				for (var j = 0; j < seperators.length-1; j++) {
+					header_line += "|---";
+				}
+
+				header_line += "|";
+
+				lines.splice(i+1, 0, header_line);
+
+			}
+		}
+
+		// Join the split lines back
+		input = ""
+		for (var i = 0; i < lines.length; i++) {
+			input += lines[i] + "\n"
+		}
+
+
+
 		return input;
 	};
 
@@ -107,6 +140,23 @@
 		    input = input.replace(sub["key"], sub["value"]);
 		}
 
+		// Convert header rows of tables by splitting input on lines
+		lines = input.split(/\r?\n/gm);
+		lines_to_remove = []
+		for (var i = 0; i < lines.length; i++) {
+			line_content = lines[i];
+
+			if (line_content.match(/\|---/g) != null) {
+				lines[i-1] = lines[i-1].replace(/\|/g, "||")
+				lines.splice(i, 1)
+			}
+		}
+
+		// Join the split lines back
+		input = ""
+		for (var i = 0; i < lines.length; i++) {
+			input += lines[i] + "\n"
+		}
 		return input;
 	};
 
