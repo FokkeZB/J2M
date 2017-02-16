@@ -17,6 +17,7 @@
 			return to + content + to;
 		});
 
+		input = input.replace(/([\t| ]*)(# )([-\w]*)?/g, '$11.$3');
 		input = input.replace(/\{\{([^}]+)\}\}/g, '`$1`');
 		input = input.replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>');
 		input = input.replace(/\+([^+]*)\+/g, '<ins>$1</ins>');
@@ -78,14 +79,14 @@
 		var START = 'J2MBLOCKPLACEHOLDER';
 		var replacementsList = [];
 		var counter = 0;
-		
+
 		input = input.replace(/`{3,}(\w+)?((?:\n|.)+?)`{3,}/g, function(match, synt, content) {
 		    var code = '{code';
-		
+
 		    if (synt) {
 		        code += ':' + synt;
 		    }
-		
+
 		    code += '}' + content + '{code}';
 		    var key = START + counter++ + '%%';
 		    replacementsList.push({key: key, value: code});
