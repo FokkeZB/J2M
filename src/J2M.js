@@ -26,6 +26,7 @@
 
 		input = input.replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```');
 
+		input = input.replace(/!([^\n\s]+)!/, '![]($1)');
 		input = input.replace(/\[(.+?)\|(.+)\]/g, '[$1]($2)');
 		input = input.replace(/\[(.+?)\]([^\(]*)/g, '<$1>$2');
 
@@ -138,6 +139,7 @@
 
 		input = input.replace(/~~(.*?)~~/g, '-$1-');
 
+		input = input.replace(/!\[[^\]]+\]\(([^)]+)\)/g, '!$1!');
 		input = input.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]');
 		input = input.replace(/<([^>]+)>/g, '[$1]');
 
