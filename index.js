@@ -34,8 +34,8 @@ J2M.prototype.to_markdown = function(str) {
         .replace(/\_(\S.*)\_/g, '*$1*')
         // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
-        // Citations
-        .replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
+        // Citations (buggy)
+        //.replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
         // Inserts
         .replace(/\+([^+]*)\+/g, '<ins>$1</ins>')
         // Superscript
@@ -70,7 +70,7 @@ J2M.prototype.to_markdown = function(str) {
 
 J2M.prototype.to_jira = function(str) {
     var map = {
-      cite: '??',
+      //cite: '??',
       del: '-',
       ins: '+',
       sup: '^',

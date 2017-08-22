@@ -23,10 +23,10 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown('{{monospaced}}');
         markdown.should.eql('`monospaced`');
     });
-    it('should convert citations properly', function() {
-        var markdown = j2m.to_markdown('??citation??');
-        markdown.should.eql('<cite>citation</cite>');
-    });
+    //it('should convert citations properly', function() {
+    //    var markdown = j2m.to_markdown('??citation??');
+    //    markdown.should.eql('<cite>citation</cite>');
+    //});
     it('should convert strikethroughs properly', function() {
         var markdown = j2m.to_markdown('-deleted-');
         markdown.should.eql('~~deleted~~');
