@@ -20,12 +20,12 @@ NOTE: All conversion work bi-directionally (from jira to markdown and back again
 * Bold + Italic
 * Un-ordered lists
 * Ordered lists
-* Programming Language-specific code blocks
+* Programming Language-specific code blocks (with help from herbert-venancio)
 * Inline preformatted text spans
 * Un-named links
 * Named links
 * Monospaced Text
-* ~~Citations~~ (removed in 2.0.0)
+* Citations
 * Strikethroughs
 * Inserts
 * Superscripts
