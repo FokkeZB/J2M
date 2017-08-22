@@ -84,11 +84,11 @@ describe('to_jira', function() {
         jira.should.eql("bq. This is a long blockquote type thingy that needs to be converted.");
     });
     it('should convert un-ordered lists properly', function() {
-        var jira = j2m.to_jira("* Foo\n* Bar\n* Baz\n * FooBar\n * BarBaz\n  * FooBarBaz\n* Starting Over");
+        var jira = j2m.to_jira("* Foo\n* Bar\n* Baz\n  * FooBar\n  * BarBaz\n    * FooBarBaz\n* Starting Over");
         jira.should.eql("* Foo\n* Bar\n* Baz\n** FooBar\n** BarBaz\n*** FooBarBaz\n* Starting Over");
     });
     it('should convert ordered lists properly', function() {
-        var jira = j2m.to_jira("1. Foo\n1. Bar\n1. Baz\n 1. FooBar\n 1. BarBaz\n  1. FooBarBaz\n1. Starting Over");
+        var jira = j2m.to_jira("1. Foo\n1. Bar\n1. Baz\n  1. FooBar\n  1. BarBaz\n    1. FooBarBaz\n1. Starting Over");
         jira.should.eql("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
     });
     it('should handle bold AND italic (combined) correctly', function() {
@@ -96,7 +96,7 @@ describe('to_jira', function() {
         jira.should.eql("This is _*emphatically bold*_!");
     });
     it('should handle bold within a un-ordered list item', function() {
-        var jira = j2m.to_jira("* This is not bold!\n * This is **bold**.");
+        var jira = j2m.to_jira("* This is not bold!\n  * This is **bold**.");
         jira.should.eql("* This is not bold!\n** This is *bold*.");
     });
     it('should be able to handle a complicated multi-line markdown string and convert it to markdown', function() {

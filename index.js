@@ -18,11 +18,11 @@ J2M.prototype.to_markdown = function(str) {
     return str
         // Ordered Lists
         .replace(/^[ \t]*(\*+)\s+/gm, function(match, stars) {
-            return Array(stars.length).join(" ") + '* ';
+            return Array(stars.length).join("  ") + '* ';
         })
         // Un-ordered lists
         .replace(/^[ \t]*(#+)\s+/gm, function(match, nums) {
-            return Array(nums.length).join(" ") + '1. ';
+            return Array(nums.length).join("  ") + '1. ';
         })
         // Headers 1-6
         .replace(/^h([0-6])\.(.*)$/gm, function (match, level, content) {
@@ -35,7 +35,7 @@ J2M.prototype.to_markdown = function(str) {
         // Monospaced text
         .replace(/\{\{([^}]+)\}\}/g, '`$1`')
         // Citations
-        //.replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
+        .replace(/\?\?((?:.[^?]|[^?].)+)\?\?/g, '<cite>$1</cite>')
         // Inserts
         .replace(/\+([^+]*)\+/g, '<ins>$1</ins>')
         // Superscript
@@ -45,7 +45,7 @@ J2M.prototype.to_markdown = function(str) {
         // Strikethrough
         .replace(/-(\S+.*?\S)-/g, '~~$1~~')
         // Code Block
-        .replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```')
+        .replace(/\{code(:([a-z]+))?([:|]?(title|borderStyle|borderColor|borderWidth|bgColor|titleBGColor)=.+?)*\}([^]*)\{code\}/gm, '```$2$5```')
         // Pre-formatted text
         .replace(/{noformat}/g, '```')
         // Un-named Links
@@ -97,11 +97,11 @@ J2M.prototype.to_jira = function(str) {
          })
         // Ordered lists
         .replace(/^([ \t]*)\d+\.\s+/gm, function(match, spaces) {
-            return Array(spaces.length + 1).join("#") + '# ';
+            return Array(Math.floor(spaces.length/2 + 1)).join("#") + '# ';
         })
         // Un-Ordered Lists
         .replace(/^([ \t]*)\*\s+/gm, function(match, spaces) {
-            return Array(spaces.length + 1).join("*") + '* ';
+            return Array(Math.floor(spaces.length/2 + 1)).join("*") + '* ';
         })
         // Headers (h1 or h2) (lines "underlined" by ---- or =====)
         // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs

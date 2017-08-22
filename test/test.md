@@ -37,20 +37,20 @@ GitHub Flavor
 
 * First li
 * Second li
- * Indented li
-  * Three columns in li
+  * Indented li
+    * Three columns in li
 * Back to first level li
 
 1. First li
 1. Second li
- 1. Indented li
-  1. Three columns in li
+  1. Indented li
+    1. Three columns in li
 1. Back to first level li
 
 * Here's *italic* inside li
 * here's **bold** inside li
 * Here's ***bold + italic*** inside li
- * Here they are in one line indented: *italic* **bold**
+  * Here they are in one line indented: *italic* **bold**
 
 > Here's a long single-paragraph block quote. It should look pretty and stuff.
 

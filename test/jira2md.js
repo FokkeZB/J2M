@@ -51,6 +51,24 @@ describe('to_markdown', function() {
         var markdown = j2m.to_markdown("{code:javascript}\nvar hello = 'world';\n{code}");
         markdown.should.eql("```javascript\nvar hello = 'world';\n```");
     });
+    it('should convert code without language-specific and with title into code block', function() {
+        var markdown = j2m.to_markdown("{code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code}");
+        markdown.should.eql("```\nclass Foo {\n  public static void main() {\n  }\n}\n```")
+    });
+    it('should convert fully configured code block', function() {
+        var markdown = j2m.to_markdown(
+            "{code:xml|title=My Title|borderStyle=dashed|borderColor=#ccc|titleBGColor=#F7D6C1|bgColor=#FFFFCE}"
+            + "\n    <test>"
+            + "\n        <another tag=\"attribute\"/>"
+            + "\n    </test>"
+            + "\n{code}");
+        markdown.should.eql(
+            "```xml"
+            + "\n    <test>"
+            + "\n        <another tag=\"attribute\"/>"
+            + "\n    </test>"
+            + "\n```");
+    });
     it('should convert unnamed links properly', function() {
         var markdown = j2m.to_markdown("[http://google.com]");
         markdown.should.eql("<http://google.com>");
@@ -79,11 +97,11 @@ describe('to_markdown', function() {
     });
     it('should convert un-ordered lists properly', function() {
         var markdown = j2m.to_markdown("* Foo\n* Bar\n* Baz\n** FooBar\n** BarBaz\n*** FooBarBaz\n* Starting Over");
-        markdown.should.eql("* Foo\n* Bar\n* Baz\n * FooBar\n * BarBaz\n  * FooBarBaz\n* Starting Over");
+        markdown.should.eql("* Foo\n* Bar\n* Baz\n  * FooBar\n  * BarBaz\n    * FooBarBaz\n* Starting Over");
     });
     it('should convert ordered lists properly', function() {
         var markdown = j2m.to_markdown("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
-        markdown.should.eql("1. Foo\n1. Bar\n1. Baz\n 1. FooBar\n 1. BarBaz\n  1. FooBarBaz\n1. Starting Over");
+        markdown.should.eql("1. Foo\n1. Bar\n1. Baz\n  1. FooBar\n  1. BarBaz\n    1. FooBarBaz\n1. Starting Over");
     });
     it('should handle bold AND italic (combined) correctly', function() {
         var markdown = j2m.to_markdown("This is _*emphatically bold*_!");
@@ -91,7 +109,7 @@ describe('to_markdown', function() {
     });
     it('should handle bold within a un-ordered list item', function() {
         var markdown = j2m.to_markdown("* This is not bold!\n** This is *bold*.");
-        markdown.should.eql("* This is not bold!\n * This is **bold**.");
+        markdown.should.eql("* This is not bold!\n  * This is **bold**.");
     });
     it('should be able to handle a complicated multi-line jira-wiki string and convert it to markdown', function() {
         var jira_str = fs.readFileSync(path.resolve(__dirname, 'test.jira'),"utf8");
