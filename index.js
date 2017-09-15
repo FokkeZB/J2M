@@ -43,7 +43,7 @@ J2M.prototype.to_markdown = function(str) {
         // Subscript
         .replace(/~([^~]*)~/g, '<sub>$1</sub>')
         // Strikethrough
-        .replace(/-(\S+.*?\S)-/g, '~~$1~~')
+        .replace(/\s+-(\S+.*?\S)-\s+/g, ' ~~$1~~ ')
         // Code Block
         .replace(/\{code(:([a-z]+))?([:|]?(title|borderStyle|borderColor|borderWidth|bgColor|titleBGColor)=.+?)*\}([^]*)\{code\}/gm, '```$2$5```')
         // Pre-formatted text
@@ -110,7 +110,7 @@ J2M.prototype.to_jira = function(str) {
             return to + content + to;
         })
         // Other kind of strikethrough
-        .replace(/~~(.*?)~~/g, '-$1-')
+        .replace(/\s+~~(.*?)~~\s+/g, ' -$1- ')
         // Named/Un-Named Code Block
         .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function(match, synt, content) {
             var code = '{code';
