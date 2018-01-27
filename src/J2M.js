@@ -31,7 +31,7 @@
 		input = input.replace(/\[(.+?)\]([^\(]*)/g, '<$1>$2');
 
 		input = input.replace(/{noformat}/g, '```');
-		input = input.replace(/{color:([^}]+)}([^]*?){color}/gm, '<span style="color:$1">$2</span>span>');
+		input = input.replace(/{color:([^}]+)}([^]*?){color}/gm, '<span style="color:$1">$2</span>');
 
 		// Convert header rows of tables by splitting input on lines
 		lines = input.split(/\r?\n/gm);
