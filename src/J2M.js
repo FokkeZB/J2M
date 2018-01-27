@@ -138,7 +138,7 @@
 			return to + content + to;
 		});
 
-		input = input.replace(/<span style="color:(#[0-9]{6,})">([^]*?)<\/span>/gm, '{color:$1}$2{color}');
+		input = input.replace(/<span style="color:(#[^"]+)">([^]*?)<\/span>/gm, '{color:$1}$2{color}');
 
 		input = input.replace(/~~(.*?)~~/g, '-$1-');
 
