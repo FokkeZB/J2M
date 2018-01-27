@@ -12,6 +12,10 @@
 			return Array(parseInt(level) + 1).join('#') + content;
 		});
 
+		input = input.replace(/^bq\.(.*)$/gm, function (match, content) {
+			return '> ' + content + "\n";
+		});
+
 		input = input.replace(/([*_])(.*)\1/g, function (match,wrapper,content) {
 			var to = (wrapper === '*') ? '**' : '*';
 			return to + content + to;
