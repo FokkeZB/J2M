@@ -12,6 +12,10 @@
 			return Array(parseInt(level) + 1).join('#') + content;
 		});
 
+		input = input.replace(/^bq\.(.*)$/gm, function (match, content) {
+			return '> ' + content + "\n";
+		});
+
 		input = input.replace(/([*_])(.*)\1/g, function (match,wrapper,content) {
 			var to = (wrapper === '*') ? '**' : '*';
 			return to + content + to;
@@ -25,6 +29,15 @@
 		input = input.replace(/-([^-]*)-/g, '-$1-');
 
 		input = input.replace(/\{code(:([a-z]+))?\}([^]*)\{code\}/gm, '```$2$3```');
+		input = input.replace(/\{quote\}([^]*)\{quote\}/gm, function(match, content) {
+			lines = content.split(/\r?\n/gm);
+
+			for (var i = 0; i < lines.length; i++) {
+				lines[i] = '> ' + lines[i];
+			}
+
+			return lines.join("\n");
+		});
 
 		input = input.replace(/!([^\n\s]+)!/, '![]($1)');
 		input = input.replace(/\[([^|]+)\|(.+?)\]/g, '[$1]($2)');
