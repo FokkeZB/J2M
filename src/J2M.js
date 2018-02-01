@@ -21,17 +21,17 @@
 
 		// multi-level numbered list
 		input = input.replace(/^((?:#|-|\+|\*)+) (.*)$/gm, function (match, level, content) {
-				var len = 2;
-				var prefix = '1.';
-				if (level.length > 1) {
-					len = parseInt((level.length - 1) * 4) + 2;
-				}
+			var len = 2;
+			var prefix = '1.';
+			if (level.length > 1) {
+				len = parseInt((level.length - 1) * 4) + 2;
+			}
 
-				// take the last character of the level to determine the replacement
-				var prefix = level[level.length - 1];
-				if (prefix == '#') prefix = '1.';
+			// take the last character of the level to determine the replacement
+			var prefix = level[level.length - 1];
+			if (prefix == '#') prefix = '1.';
 
-				return Array(len).join(" ") + prefix + ' ' + content;
+			return Array(len).join(" ") + prefix + ' ' + content;
 		});
 
 		input = input.replace(/\{\{([^}]+)\}\}/g, '`$1`');
