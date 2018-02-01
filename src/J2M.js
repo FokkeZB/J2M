@@ -4,13 +4,12 @@
 	/**
 	 * Takes Jira markup and converts it to Markdown.
 	 *
+	 * https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all
+	 *
 	 * @param {string} input - Jira markup text
 	 * @returns {string} - Markdown formatted text
 	 */
 	function toM(input) {
-		input = input.replace(/^h([0-6])\.(.*)$/gm, function (match,level,content) {
-			return Array(parseInt(level) + 1).join('#') + content;
-		});
 
 		input = input.replace(/^bq\.(.*)$/gm, function (match, content) {
 			return '> ' + content + "\n";
@@ -19,6 +18,26 @@
 		input = input.replace(/([*_])(.*)\1/g, function (match,wrapper,content) {
 			var to = (wrapper === '*') ? '**' : '*';
 			return to + content + to;
+		});
+
+		// multi-level numbered list
+		input = input.replace(/^((?:#|-|\+|\*)+) (.*)$/gm, function (match, level, content) {
+			var len = 2;
+			var prefix = '1.';
+			if (level.length > 1) {
+				len = parseInt((level.length - 1) * 4) + 2;
+			}
+
+			// take the last character of the level to determine the replacement
+			var prefix = level[level.length - 1];
+			if (prefix == '#') prefix = '1.';
+
+			return Array(len).join(" ") + prefix + ' ' + content;
+		});
+
+		// headers, must be after numbered lists
+		input = input.replace(/^h([0-6])\.(.*)$/gm, function (match,level,content) {
+			return Array(parseInt(level) + 1).join('#') + content;
 		});
 
 		input = input.replace(/\{\{([^}]+)\}\}/g, '`$1`');
@@ -95,23 +114,23 @@
 		var counter = 0;
 		
 		input = input.replace(/`{3,}(\w+)?((?:\n|.)+?)`{3,}/g, function(match, synt, content) {
-		    var code = '{code';
+			var code = '{code';
 		
-		    if (synt) {
-		        code += ':' + synt;
-		    }
+			if (synt) {
+				code += ':' + synt;
+			}
 		
-		    code += '}' + content + '{code}';
-		    var key = START + counter++ + '%%';
-		    replacementsList.push({key: key, value: code});
-		    return key;
+			code += '}' + content + '{code}';
+			var key = START + counter++ + '%%';
+			replacementsList.push({key: key, value: code});
+			return key;
 		});
 		
 		input = input.replace(/`([^`]+)`/g, function(match, content) {
-		    var code = '{{'+ content + '}}';
-		    var key = START + counter++ + '%%';
-		    replacementsList.push({key: key, value: code});
-		    return key;
+			var code = '{{'+ content + '}}';
+			var key = START + counter++ + '%%';
+			replacementsList.push({key: key, value: code});
+			return key;
 		});
 
 		input = input.replace(/`([^`]+)`/g, '{{$1}}');
@@ -128,14 +147,24 @@
 			var to = (wrapper.length === 1) ? '_' : '*';
 			return to + content + to;
 		});
-		// Make multi-level bulleted lists work
-  		input = input.replace(/^(\s*)- (.*)$/gm, function (match,level,content) {
-    			var len = 2;
-    			if(level.length > 0) {
-        			len = parseInt(level.length/4.0) + 2;
-    			}
-    			return Array(len).join("-") + ' ' + content;
-  		});
+
+		// multi-level bulleted list
+		input = input.replace(/^(\s*)- (.*)$/gm, function (match,level,content) {
+			var len = 2;
+			if(level.length > 0) {
+				len = parseInt(level.length/4.0) + 2;
+			}
+			return Array(len).join("-") + ' ' + content;
+		});
+
+		// multi-level numbered list
+		input = input.replace(/^(\s+)1. (.*)$/gm, function (match, level, content) {
+			var len = 2;
+			if (level.length > 1) {
+				len = parseInt(level.length / 4) + 2;
+			}
+			return Array(len).join("#") + ' ' + content;
+		});
 
 		var map = {
 			cite: '??',
@@ -161,8 +190,8 @@
 
 		// restore extracted sections
 		for(var i =0; i < replacementsList.length; i++){
-		    var sub = replacementsList[i];
-		    input = input.replace(sub["key"], sub["value"]);
+			var sub = replacementsList[i];
+			input = input.replace(sub["key"], sub["value"]);
 		}
 
 		// Convert header rows of tables by splitting input on lines
