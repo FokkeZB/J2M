@@ -1,27 +1,27 @@
 const marked = require('marked');
 marked.setOptions({
-	breaks: true,
-	smartyPants: true
+  breaks: true,
+  smartyPants: true
 });
 
-const J2M = function() {};
+const J2M = function () { };
 
-J2M.prototype.md_to_html = function(str) {
-	return marked(str);
+J2M.prototype.md_to_html = function (str) {
+  return marked(str);
 };
 
-J2M.prototype.jira_to_html = function(str) {
-	return marked(this.to_markdown(str));
+J2M.prototype.jira_to_html = function (str) {
+  return marked(this.to_markdown(str));
 };
 
-J2M.prototype.to_markdown = function(str) {
+J2M.prototype.to_markdown = function (str) {
   return str
     // Ordered Lists
-    .replace(/^[ \t]*(\*+)\s+/gm, function(match, stars) {
+    .replace(/^[ \t]*(\*+)\s+/gm, function (match, stars) {
       return Array(stars.length).join("  ") + '* ';
     })
     // Un-ordered lists
-    .replace(/^[ \t]*(#+)\s+/gm, function(match, nums) {
+    .replace(/^[ \t]*(#+)\s+/gm, function (match, nums) {
       return Array(nums.length).join("  ") + '1. ';
     })
     // Headers 1-6
@@ -60,7 +60,7 @@ J2M.prototype.to_markdown = function(str) {
     .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '\n| $1 |\n| --- |\n| $2 |')
     // table header
     .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (match, headers) {
-      const singleBarred =  headers.replace(/\|\|/g,'|');
+      const singleBarred = headers.replace(/\|\|/g, '|');
       return '\n' + singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
     })
     // remove leading-space of table headers and rows
@@ -68,7 +68,7 @@ J2M.prototype.to_markdown = function(str) {
 
 };
 
-J2M.prototype.to_jira = function(str) {
+J2M.prototype.to_jira = function (str) {
   const map = {
     //cite: '??',
     del: '-',
@@ -79,7 +79,7 @@ J2M.prototype.to_jira = function(str) {
 
   return str
     // Bold, Italic, and Combined (bold+italic)
-    .replace(/([*_]+)(\S.*?)\1/g, function (match,wrapper,content) {
+    .replace(/([*_]+)(\S.*?)\1/g, function (match, wrapper, content) {
       switch (wrapper.length) {
         case 1: return '_' + content + '_';
         case 2: return '*' + content + '*';
@@ -88,24 +88,24 @@ J2M.prototype.to_jira = function(str) {
       }
     })
     // All Headers (# format)
-    .replace(/^([#]+)(.*?)$/gm, function (match,level,content) {
+    .replace(/^([#]+)(.*?)$/gm, function (match, level, content) {
       return 'h' + level.length + '.' + content;
     })
     // Headers (H1 and H2 underlines)
-    .replace(/^(.*?)\n([=-]+)$/gm, function (match,content,level) {
+    .replace(/^(.*?)\n([=-]+)$/gm, function (match, content, level) {
       return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content;
     })
     // Ordered lists
-    .replace(/^([ \t]*)\d+\.\s+/gm, function(match, spaces) {
-      return Array(Math.floor(spaces.length/2 + 1)).join("#") + '# ';
+    .replace(/^([ \t]*)\d+\.\s+/gm, function (match, spaces) {
+      return Array(Math.floor(spaces.length / 2 + 1)).join("#") + '# ';
     })
     // Un-Ordered Lists
-    .replace(/^([ \t]*)\*\s+/gm, function(match, spaces) {
-      return Array(Math.floor(spaces.length/2 + 1)).join("*") + '* ';
+    .replace(/^([ \t]*)\*\s+/gm, function (match, spaces) {
+      return Array(Math.floor(spaces.length / 2 + 1)).join("*") + '* ';
     })
     // Headers (h1 or h2) (lines "underlined" by ---- or =====)
     // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
-    .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
+    .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match, from, content) {
       const to = map[from];
       return to + content + to;
     })

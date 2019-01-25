@@ -64,7 +64,7 @@ describe('to_markdown', function () {
 
   it('should convert code without language-specific and with title into code block', function () {
     var markdown = j2m.to_markdown("{code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code}");
-    markdown.should.eql("```\nclass Foo {\n  public static void main() {\n  }\n}\n```")
+    markdown.should.eql("```\nclass Foo {\n  public static void main() {\n  }\n}\n```");
   });
 
   it('should convert fully configured code block', function () {
