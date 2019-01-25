@@ -1,10 +1,10 @@
-var marked = require('marked');
+const marked = require('marked');
 marked.setOptions({
 	breaks: true,
 	smartyPants: true
 });
 
-var J2M = function() {};
+const J2M = function() {};
 
 J2M.prototype.md_to_html = function(str) {
 	return marked(str);
@@ -60,7 +60,7 @@ J2M.prototype.to_markdown = function(str) {
         .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '\n| $1 |\n| --- |\n| $2 |')
         // table header
         .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (match, headers) {
-            var singleBarred =  headers.replace(/\|\|/g,'|');
+            const singleBarred =  headers.replace(/\|\|/g,'|');
             return '\n' + singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
         })
         // remove leading-space of table headers and rows
@@ -69,7 +69,7 @@ J2M.prototype.to_markdown = function(str) {
 };
 
 J2M.prototype.to_jira = function(str) {
-    var map = {
+    const map = {
       //cite: '??',
       del: '-',
       ins: '+',
@@ -106,14 +106,14 @@ J2M.prototype.to_jira = function(str) {
         // Headers (h1 or h2) (lines "underlined" by ---- or =====)
         // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
         .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match,from,content) {
-            var to = map[from];
+            const to = map[from];
             return to + content + to;
         })
         // Other kind of strikethrough
         .replace(/\s+~~(.*?)~~\s+/g, ' -$1- ')
         // Named/Un-Named Code Block
         .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function(match, synt, content) {
-            var code = '{code';
+            const code = '{code';
             if (synt) code += ':' + synt;
             return code + '}' + content + '{code}';
         })
@@ -128,12 +128,12 @@ J2M.prototype.to_jira = function(str) {
         // tables
         .replace(/^\n((?:\|.*?)+\|)[ \t]*\n((?:\|\s*?\-{3,}\s*?)+\|)[ \t]*\n((?:(?:\|.*?)+\|[ \t]*\n)*)$/gm,
                  function (match, headerLine, separatorLine, rowstr) {
-                     var headers = headerLine.match(/[^|]+(?=\|)/g);
-                     var separators = separatorLine.match(/[^|]+(?=\|)/g);
+                     const headers = headerLine.match(/[^|]+(?=\|)/g);
+                     const separators = separatorLine.match(/[^|]+(?=\|)/g);
                      if (headers.length !== separators.length) {
                          return match;
                      }
-                     var rows = rowstr.split('\n');
+                     const rows = rowstr.split('\n');
                      if (rows.length === 1 + 1 && headers.length === 1) {
                          // panel
                          return '{panel:title=' + headers[0].trim() + '}\n' +
