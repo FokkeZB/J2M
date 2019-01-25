@@ -110,7 +110,7 @@ J2M.prototype.to_jira = function (str) {
       return to + content + to;
     })
     // Other kind of strikethrough
-    .replace(/\s+~~(.*?)~~\s+/g, ' -$1- ')
+    .replace(/(\s|^)+\~~(.*?)\~~+/g, '$1-$2-')
     // Named/Un-Named Code Block
     .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function (match, synt, content) {
       let code = '{code';
