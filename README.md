@@ -38,7 +38,6 @@ NOTE: All conversion work bi-directionally (from jira to markdown and back again
 * Tables (thanks to erykwarren)
 * Panels (thanks to erykwarren)
 
-
 ## How to Use
 
 ### Markdown String
