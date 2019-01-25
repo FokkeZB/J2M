@@ -28,10 +28,10 @@ describe('to_jira', function () {
     jira.should.eql('{{monospaced}}');
   });
 
-  it('should convert citations properly', function () {
-    var jira = j2m.to_jira('<cite>citation</cite>');
-    jira.should.eql('??citation??');
-  });
+  // it('should convert citations properly', function () {
+  //   var jira = j2m.to_jira('<cite>citation</cite>');
+  //   jira.should.eql('??citation??');
+  // });
 
   it('should convert strikethroughs properly', function () {
     var jira = j2m.to_jira('~~deleted~~');
