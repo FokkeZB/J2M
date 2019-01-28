@@ -18,14 +18,19 @@ describe('to_markdown', function () {
     markdown.should.eql('**bold words**');
   });
 
-  it('does not perform intraword formatting on underscores', function () {
-    var markdown = j2m.to_markdown('a_phrase_with_underscores');
-    markdown.should.eql('a_phrase_with_underscores');
+  it("does not perform intraword formatting on asterisks", function() {
+    var markdown = j2m.to_markdown("a*phrase*with*asterisks");
+    markdown.should.eql("a*phrase*with*asterisks");
   });
 
   it('should convert italics properly', function () {
     var markdown = j2m.to_markdown('_italic_');
     markdown.should.eql('*italic*');
+  });
+
+  it('does not perform intraword formatting on underscores', function () {
+    var markdown = j2m.to_markdown('a_phrase_with_underscores');
+    markdown.should.eql('a_phrase_with_underscores');
   });
 
   it('should convert monospaced content properly', function () {
@@ -37,6 +42,7 @@ describe('to_markdown', function () {
   //    var markdown = j2m.to_markdown('??citation??');
   //    markdown.should.eql('<cite>citation</cite>');
   //});
+
   it('should convert strikethroughs properly', function () {
     var markdown = j2m.to_markdown('-deleted-');
     markdown.should.eql('~~deleted~~');
