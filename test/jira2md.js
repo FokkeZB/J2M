@@ -143,7 +143,7 @@ describe('to_markdown', function () {
     markdown.should.eql("* This is not bold!\n  * This is **bold**.");
   });
 
-  it.skip('should be able to handle a complicated multi-line jira-wiki string and convert it to markdown', function () {
+  it('should be able to handle a complicated multi-line jira-wiki string and convert it to markdown', function () {
     var jira_str = fs.readFileSync(path.resolve(__dirname, 'test.jira'), "utf8");
     var md_str = fs.readFileSync(path.resolve(__dirname, 'test.md'), "utf8");
     var markdown = j2m.to_markdown(jira_str);
