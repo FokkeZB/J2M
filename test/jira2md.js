@@ -14,8 +14,13 @@ describe('to_markdown', function () {
   });
 
   it('should convert bolds properly', function () {
-    var markdown = j2m.to_markdown('*bold*');
-    markdown.should.eql('**bold**');
+    var markdown = j2m.to_markdown('*bold words*');
+    markdown.should.eql('**bold words**');
+  });
+
+  it('does not perform intraword formatting on underscores', function () {
+    var markdown = j2m.to_markdown('a_phrase_with_underscores');
+    markdown.should.eql('a_phrase_with_underscores');
   });
 
   it('should convert italics properly', function () {
