@@ -79,12 +79,12 @@ J2M.prototype.to_jira = function (str) {
 
   return str
     // Bold, Italic, and Combined (bold+italic)
-    .replace(/([*_]+)(\S.*?)\1/g, function (match, wrapper, content) {
+    .replace(/(\s|^)([*_]+)(\S.*?)\2/g, function (_match, whitespace, wrapper, content) {
       switch (wrapper.length) {
-        case 1: return '_' + content + '_';
-        case 2: return '*' + content + '*';
-        case 3: return '_*' + content + '*_';
-        default: return wrapper + content * wrapper;
+        case 1: return whitespace + '_' + content + '_';
+        case 2: return whitespace + "*" + content + "*";
+        case 3: return whitespace + "_*" + content + "*_";
+        default: return whitespace + wrapper + content * wrapper;
       }
     })
     // All Headers (# format)

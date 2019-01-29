@@ -14,18 +14,28 @@ describe('to_jira', function () {
   });
 
   it('should convert bolds properly', function () {
-    var jira = j2m.to_jira('**bold**');
-    jira.should.eql('*bold*');
+    var jira = j2m.to_jira('**bold words**');
+    jira.should.eql('*bold words*');
+  });
+
+  it("does not perform intraword formatting on asterisks", function () {
+    var jira = j2m.to_jira("a*phrase*with*asterisks");
+    jira.should.eql("a*phrase*with*asterisks");
   });
 
   it('should convert italics properly', function () {
-    var jira = j2m.to_jira('*italic*');
-    jira.should.eql('_italic_');
+    var jira = j2m.to_jira('*italic words*');
+    jira.should.eql('_italic words_');
+  });
+
+  it("does not perform intraword formatting on underscores", function() {
+    var jira = j2m.to_jira("a_phrase_with_underscores");
+    jira.should.eql("a_phrase_with_underscores");
   });
 
   it('should convert monospaced content properly', function () {
-    var jira = j2m.to_jira('`monospaced`');
-    jira.should.eql('{{monospaced}}');
+    var jira = j2m.to_jira('`monospaced words`');
+    jira.should.eql('{{monospaced words}}');
   });
 
   // it('should convert citations properly', function () {
