@@ -18,6 +18,11 @@ describe('to_markdown', function () {
     markdown.should.eql('**bold words**');
   });
 
+  it("should handle multiple bold sections in a line", function() {
+    var markdown = j2m.to_markdown("*this should be bold* this should not *this should be bold*");
+    markdown.should.eql("**this should be bold** this should not **this should be bold**");
+  });
+
   it("does not perform intraword formatting on asterisks", function() {
     var markdown = j2m.to_markdown("a*phrase*with*asterisks");
     markdown.should.eql("a*phrase*with*asterisks");
@@ -26,6 +31,11 @@ describe('to_markdown', function () {
   it('should convert italics properly', function () {
     var markdown = j2m.to_markdown('_italic_');
     markdown.should.eql('*italic*');
+  });
+
+  it("should handle multiple italic sections in a line", function () {
+    var markdown = j2m.to_markdown("_this should be italic_ this should not _this should be italic_");
+    markdown.should.eql("*this should be italic* this should not *this should be italic*");
   });
 
   it('does not perform intraword formatting on underscores', function () {
