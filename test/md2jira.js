@@ -13,24 +13,35 @@ describe('to_jira', function () {
     j2m.to_jira.should.be.a('function');
   });
 
-  it('should convert bolds properly', function () {
-    var jira = j2m.to_jira('**bold words**');
-    jira.should.eql('*bold words*');
-  });
+  describe('emphasis formatting', function () {
+    describe('bold formatting', function () {
+      it('should convert bolds properly', function () {
+        var jira = j2m.to_jira('**bold words**');
+        jira.should.eql('*bold words*');
+      });
 
-  it("does not perform intraword formatting on asterisks", function () {
-    var jira = j2m.to_jira("a*phrase*with*asterisks");
-    jira.should.eql("a*phrase*with*asterisks");
-  });
+      it("does not perform intraword formatting on asterisks", function () {
+        var jira = j2m.to_jira("a*phrase*with*asterisks");
+        jira.should.eql("a*phrase*with*asterisks");
+      });
+    })
 
-  it('should convert italics properly', function () {
-    var jira = j2m.to_jira('*italic words*');
-    jira.should.eql('_italic words_');
-  });
+    describe('italic formatting', function () {
+      it('should convert italics properly', function () {
+        var jira = j2m.to_jira('*italic words*');
+        jira.should.eql('_italic words_');
+      });
 
-  it("does not perform intraword formatting on underscores", function() {
-    var jira = j2m.to_jira("a_phrase_with_underscores");
-    jira.should.eql("a_phrase_with_underscores");
+      it("does not perform intraword formatting on underscores", function () {
+        var jira = j2m.to_jira("a_phrase_with_underscores");
+        jira.should.eql("a_phrase_with_underscores");
+      });
+    })
+
+    it('should handle bold AND italic (combined) correctly', function () {
+      var jira = j2m.to_jira("This is ***emphatically bold***!");
+      jira.should.eql("This is _*emphatically bold*_!");
+    });
   });
 
   it('should convert monospaced content properly', function () {
@@ -63,14 +74,16 @@ describe('to_jira', function () {
     jira.should.eql('~subscript~');
   });
 
-  it('should convert preformatted blocks properly', function () {
-    var jira = j2m.to_jira("```\nso *no* further **formatting** is done here\n```");
-    jira.should.eql("{code}\nso _no_ further *formatting* is done here\n{code}");
-  });
+  describe('codeblock formatting', function () {
+    it('should convert preformatted blocks properly', function () {
+      var jira = j2m.to_jira("```\nso *no* further **formatting** is done here\n```");
+      jira.should.eql("{code}\nso _no_ further *formatting* is done here\n{code}");
+    });
 
-  it('should convert language-specific code blocks properly', function () {
-    var jira = j2m.to_jira("```javascript\nvar hello = 'world';\n```");
-    jira.should.eql("{code:javascript}\nvar hello = 'world';\n{code}");
+    it('should convert language-specific code blocks properly', function () {
+      var jira = j2m.to_jira("```javascript\nvar hello = 'world';\n```");
+      jira.should.eql("{code:javascript}\nvar hello = 'world';\n{code}");
+    });
   });
 
   it('should convert unnamed links properly', function () {
@@ -110,24 +123,21 @@ describe('to_jira', function () {
     jira.should.eql("bq. This is a long blockquote type thingy that needs to be converted.");
   });
 
-  it('should convert un-ordered lists properly', function () {
-    var jira = j2m.to_jira("* Foo\n* Bar\n* Baz\n  * FooBar\n  * BarBaz\n    * FooBarBaz\n* Starting Over");
-    jira.should.eql("* Foo\n* Bar\n* Baz\n** FooBar\n** BarBaz\n*** FooBarBaz\n* Starting Over");
-  });
+  describe('list formatting', function () {
+    it('should convert un-ordered lists properly', function () {
+      var jira = j2m.to_jira("* Foo\n* Bar\n* Baz\n  * FooBar\n  * BarBaz\n    * FooBarBaz\n* Starting Over");
+      jira.should.eql("* Foo\n* Bar\n* Baz\n** FooBar\n** BarBaz\n*** FooBarBaz\n* Starting Over");
+    });
 
-  it('should convert ordered lists properly', function () {
-    var jira = j2m.to_jira("1. Foo\n1. Bar\n1. Baz\n  1. FooBar\n  1. BarBaz\n    1. FooBarBaz\n1. Starting Over");
-    jira.should.eql("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
-  });
+    it('should convert ordered lists properly', function () {
+      var jira = j2m.to_jira("1. Foo\n1. Bar\n1. Baz\n  1. FooBar\n  1. BarBaz\n    1. FooBarBaz\n1. Starting Over");
+      jira.should.eql("# Foo\n# Bar\n# Baz\n## FooBar\n## BarBaz\n### FooBarBaz\n# Starting Over");
+    });
 
-  it('should handle bold AND italic (combined) correctly', function () {
-    var jira = j2m.to_jira("This is ***emphatically bold***!");
-    jira.should.eql("This is _*emphatically bold*_!");
-  });
-
-  it('should handle bold within a un-ordered list item', function () {
-    var jira = j2m.to_jira("* This is not bold!\n  * This is **bold**.");
-    jira.should.eql("* This is not bold!\n** This is *bold*.");
+    it('should handle bold within a un-ordered list item', function () {
+      var jira = j2m.to_jira("* This is not bold!\n  * This is **bold**.");
+      jira.should.eql("* This is not bold!\n** This is *bold*.");
+    });
   });
 
   it('should be able to handle a complicated multi-line markdown string and convert it to markdown', function () {
