@@ -75,7 +75,12 @@ describe('to_markdown', function () {
 
   it('should convert preformatted blocks properly', function () {
     var markdown = j2m.to_markdown("{noformat}\nso *no* further _formatting_ is done here\n{noformat}");
-    markdown.should.eql("```\nso **no** further *formatting* is done here\n```");
+    markdown.should.eql("```\nso *no* further _formatting_ is done here\n```");
+  });
+
+  it('should not apply formatting within codeblocks', function () {
+    var markdown = j2m.to_markdown("{code}\nso *no* further _formatting_ is done here\n{code}");
+    markdown.should.eql("```\nso *no* further _formatting_ is done here\n```");
   });
 
   it('should convert language-specific code blocks properly', function () {

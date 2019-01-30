@@ -29,7 +29,7 @@ GitHub Flavor
 
 ```
   preformatted piece of text
-  so *no_ further _formatting* is done here
+  so _no_ further _formatting_ is done here
 ```
 
 ***Should be bold AND italic***
