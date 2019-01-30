@@ -103,6 +103,11 @@ describe('to_markdown', function () {
       + "\n```");
   });
 
+  it('should convert multiple codeblocks properly', function () {
+    var markdown = j2m.to_markdown("{code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code} \n {code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code}");
+    markdown.should.eql("```\nclass Foo {\n  public static void main() {\n  }\n}\n``` \n ```\nclass Foo {\n  public static void main() {\n  }\n}\n```");
+  });
+
   it('should convert unnamed links properly', function () {
     var markdown = j2m.to_markdown("[http://google.com]");
     markdown.should.eql("<http://google.com>");
