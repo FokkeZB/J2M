@@ -28,6 +28,21 @@ describe('to_markdown', function () {
     markdown.should.eql("a*phrase*with*asterisks");
   });
 
+  it('does not apply bold formatting without an underscore at the end of the phrase', function () {
+    var markdown = j2m.to_markdown('*a*phrase');
+    markdown.should.eql('*a*phrase');
+  });
+
+  it('formats bolds while leaving intraword asterisks untouched', function () {
+    var markdown = j2m.to_markdown('*bold*phrase*with*internal*asterisks*');
+    markdown.should.eql('**bold*phrase*with*internal*asterisks**');
+  });
+
+  it('handles bolds at the end of sentences', function () {
+    var markdown = j2m.to_markdown('A sentence ending in *bold*.');
+    markdown.should.eql('A sentence ending in **bold**.');
+  });
+
   it('should convert italics properly', function () {
     var markdown = j2m.to_markdown('_italic_');
     markdown.should.eql('*italic*');
@@ -41,6 +56,21 @@ describe('to_markdown', function () {
   it('does not perform intraword formatting on underscores', function () {
     var markdown = j2m.to_markdown('a_phrase_with_underscores');
     markdown.should.eql('a_phrase_with_underscores');
+  });
+
+  it('does not apply italic formatting without an underscore at the end of the phrase', function () {
+    var markdown = j2m.to_markdown('_a_phrase');
+    markdown.should.eql('_a_phrase');
+  });
+
+  it('formats italics while leaving intraword underscores untouched', function () {
+    var markdown = j2m.to_markdown('_italic_phrase_with_internal_underscores_');
+    markdown.should.eql('*italic_phrase_with_internal_underscores*');
+  });
+
+  it('handles italics at the end of sentences', function () {
+    var markdown = j2m.to_markdown('A sentence ending in _italic_.');
+    markdown.should.eql('A sentence ending in *italic*.');
   });
 
   it('should convert monospaced content properly', function () {
