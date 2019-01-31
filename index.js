@@ -17,15 +17,15 @@ J2M.prototype.jira_to_html = function (str) {
 J2M.prototype.to_markdown = function (str) {
   return str
     // Ordered Lists
-    .replace(/^[ \t]*(\*+)\s+/gm, function (match, stars) {
+    .replace(/^[ \t]*(\*+)\s+/gm, function (_match, stars) {
       return Array(stars.length).join("  ") + '* ';
     })
     // Un-ordered lists
-    .replace(/^[ \t]*(#+)\s+/gm, function (match, nums) {
+    .replace(/^[ \t]*(#+)\s+/gm, function (_match, nums) {
       return Array(nums.length).join("  ") + '1. ';
     })
     // Headers 1-6
-    .replace(/^h([0-6])\.(.*)$/gm, function (match, level, content) {
+    .replace(/^h([0-6])\.(.*)$/gm, function (_match, level, content) {
       return Array(parseInt(level) + 1).join('#') + content;
     })
     // Bold
@@ -59,7 +59,7 @@ J2M.prototype.to_markdown = function (str) {
     // panel into table
     .replace(/\{panel:title=([^}]*)\}\n?([^]*?)\n?\{panel\}/gm, '\n| $1 |\n| --- |\n| $2 |')
     // table header
-    .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (match, headers) {
+    .replace(/^[ \t]*((?:\|\|.*?)+\|\|)[ \t]*$/gm, function (_match, headers) {
       const singleBarred = headers.replace(/\|\|/g, '|');
       return '\n' + singleBarred + '\n' + singleBarred.replace(/\|[^|]+/g, '| --- ');
     })
@@ -88,31 +88,31 @@ J2M.prototype.to_jira = function (str) {
       }
     })
     // All Headers (# format)
-    .replace(/^([#]+)(.*?)$/gm, function (match, level, content) {
+    .replace(/^([#]+)(.*?)$/gm, function (_match, level, content) {
       return 'h' + level.length + '.' + content;
     })
     // Headers (H1 and H2 underlines)
-    .replace(/^(.*?)\n([=-]+)$/gm, function (match, content, level) {
+    .replace(/^(.*?)\n([=-]+)$/gm, function (_match, content, level) {
       return 'h' + (level[0] === '=' ? 1 : 2) + '. ' + content;
     })
     // Ordered lists
-    .replace(/^([ \t]*)\d+\.\s+/gm, function (match, spaces) {
+    .replace(/^([ \t]*)\d+\.\s+/gm, function (_match, spaces) {
       return Array(Math.floor(spaces.length / 2 + 1)).join("#") + '# ';
     })
     // Un-Ordered Lists
-    .replace(/^([ \t]*)\*\s+/gm, function (match, spaces) {
+    .replace(/^([ \t]*)\*\s+/gm, function (_match, spaces) {
       return Array(Math.floor(spaces.length / 2 + 1)).join("*") + '* ';
     })
     // Headers (h1 or h2) (lines "underlined" by ---- or =====)
     // Citations, Inserts, Subscripts, Superscripts, and Strikethroughs
-    .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (match, from, content) {
+    .replace(new RegExp('<(' + Object.keys(map).join('|') + ')>(.*?)<\/\\1>', 'g'), function (_match, from, content) {
       const to = map[from];
       return to + content + to;
     })
     // Other kind of strikethrough
     .replace(/(\s|^)+\~~(.*?)\~~+/g, '$1-$2-')
     // Named/Un-Named Code Block
-    .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function (match, synt, content) {
+    .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function (_match, synt, content) {
       let code = '{code';
       if (synt) code += ':' + synt;
       return code + '}' + content + '{code}';
