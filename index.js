@@ -29,9 +29,9 @@ J2M.prototype.to_markdown = function (str) {
       return Array(parseInt(level) + 1).join('#') + content;
     })
     // Bold
-    .replace(/(\s|^|\_)\*(\S.*?)\*($|[^a-zA-Z])/g, '$1**$2**$3')
+    .replace(/(\s|^|\_)\*(\S.*?)\*($|[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]|\s)/g, '$1**$2**$3')
     // Italic
-    .replace(/(\s|^|\*)\_(\S.*?)\_($|[^a-zA-Z])/g, '$1*$2*$3')
+    .replace(/(\s|^|\*)\_(\S.*?)\_($|[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]|\s)/g, '$1*$2*$3')
     // Monospaced text
     .replace(/\{\{([^}]+)\}\}/g, '`$1`')
     // Citations (buggy)
@@ -79,12 +79,12 @@ J2M.prototype.to_jira = function (str) {
 
   return str
     // Bold, Italic, and Combined (bold+italic)
-    .replace(/(\s|^)([*_]+)(\S.*?)\2/g, function (_match, whitespace, wrapper, content) {
+    .replace(/(\s?|^)([*_]+)(\S.*?)\2(\s|[~`!@#$%^&()\{\}\[\];:"'<,\.>?\/\\|+=-]|$)/gm, function (_match, opening_chars, wrapper, content, closing_chars) {
       switch (wrapper.length) {
-        case 1: return whitespace + '_' + content + '_';
-        case 2: return whitespace + "*" + content + "*";
-        case 3: return whitespace + "_*" + content + "*_";
-        default: return whitespace + wrapper + content * wrapper;
+        case 1: return opening_chars + '_' + content + '_' + closing_chars;
+        case 2: return opening_chars + "*" + content + "*" + closing_chars;
+        case 3: return opening_chars + "_*" + content + "*_" + closing_chars;
+        default: return opening_chars + wrapper + content * wrapper + closing_chars;
       }
     })
     // All Headers (# format)

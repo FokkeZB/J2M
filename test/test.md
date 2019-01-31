@@ -47,9 +47,10 @@ GitHub Flavor
 1. Back to first level li
 
 * Here's *italic* inside li
-* here's **bold** inside li
+* Here's **bold** inside li
+* Here's **bold** and *italic* inside li
 * Here's ***bold + italic*** inside li
-  * Here they are in one line indented: *italic* **bold**
+  * Here they are in one line indented: *italic* and **bold**
 
 > Here's a long single-paragraph block quote. It should look pretty and stuff.
 
