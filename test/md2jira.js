@@ -198,5 +198,10 @@ describe('to_jira', function () {
     var jira = j2m.to_jira(md_str);
     jira.should.eql(jira_str);
   });
+
+  it('should leave urls and emails unchanged', function () {
+    var jira = j2m.to_jira('https://example_url_thing.com some_person@example_domain.com');
+    jira.should.eql('https://example_url_thing.com some_person@example_domain.com');
+  });
 });
 

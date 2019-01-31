@@ -219,4 +219,9 @@ describe('to_markdown', function () {
     var markdown = j2m.to_markdown("A text with{color:blue} blue \n lines {color} is not necessary.");
     markdown.should.eql("A text with blue \n lines  is not necessary.");
   });
+
+  it('should leave urls unchanged', function () {
+    var markdown = j2m.to_markdown('https://example_url_thing.com');
+    markdown.should.eql('https://example_url_thing.com');
+  });
 });
