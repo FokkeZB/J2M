@@ -18,7 +18,7 @@
     "chai": "^3.5.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "mocha --timeout 5000 --check-leaks --reporter spec test/*.js"
   },
   "author": "Fokke Zandbergen <mail@fokkezb.nl>",
   "contributors": [
