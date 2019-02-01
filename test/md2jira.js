@@ -132,6 +132,11 @@ describe('to_jira', function () {
       jira.should.eql("{code:javascript}\nvar hello = 'world';\n{code}");
     });
 
+    it('should convert multiple codeblocks properly', function () {
+      var jira = j2m.to_jira("```javascript\nvar hello = 'world';\n``` \n```javascript\nvar hello = 'world';\n```");
+      jira.should.eql("{code:javascript}\nvar hello = 'world';\n{code} \n{code:javascript}\nvar hello = 'world';\n{code}");
+    });
+
     it('should not apply formatting within codeblocks', function () {
       var jira = j2m.to_jira("```\nso **no** further *formatting* _is_ done ***here***\n```");
       jira.should.eql("{code}\nso **no** further *formatting* _is_ done ***here***\n{code}");
