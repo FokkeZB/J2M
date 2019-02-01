@@ -7,15 +7,16 @@
     "wiki",
     "markdown"
   ],
-  "homepage": "http://github.com/kylefarris/J2M.git",
+  "homepage": "http://github.com/karimatthews/J2M.git",
   "repository": {
     "type": "git",
-    "url": "http://github.com/kylefarris/J2M.git"
+    "url": "http://github.com/karimatthews/J2M.git"
   },
   "description": "JIRA to MarkDown text format converter.",
   "main": "index.js",
   "devDependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "mocha": "^5.2.0"
   },
   "scripts": {
     "test": "mocha --timeout 5000 --check-leaks --reporter spec test/*.js"
@@ -23,11 +24,11 @@
   "author": "Fokke Zandbergen <mail@fokkezb.nl>",
   "contributors": [
     "Kyle Farris <kyle@chomponllc.com>",
-    "Eryk Warren <https://github.com/erykwarren>"
+    "Eryk Warren <https://github.com/erykwarren>",
+    "Kari Matthews <https://github.com/karimatthews>"
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "marked": "^0.3.5",
-    "mocha": "^5.2.0"
+    "marked": "^0.3.5"
   }
 }
