@@ -40,7 +40,7 @@ describe('to_jira', function () {
         jira.should.eql('*bold*phrase*with*internal*asterisks*');
       });
 
-      // TODO: Fix the code so this test can ne unskipped
+      // TODO: Fix the code so this test can be unskipped
       it.skip('does not apply bold formatting without an asterisk pair at the start of the phrase', function () {
         var jira = j2m.to_jira('a**phrase**');
         jira.should.eql('a**phrase**');
@@ -73,7 +73,7 @@ describe('to_jira', function () {
         jira.should.eql('A sentence ending in _italic_.');
       });
 
-      // TODO: Fix the code so this test can ne unskipped
+      // TODO: Fix the code so this test can be unskipped
       it.skip('does not apply italic formatting without asterisks at the start of the phrase', function () {
         var jira = j2m.to_jira('a*phrase*');
         jira.should.eql('a*phrase*');
@@ -126,15 +126,15 @@ describe('to_jira', function () {
     jira.should.eql('~subscript~');
   });
 
-  describe.skip('codeblock formatting', function () {
-    it('should convert preformatted blocks properly', function () {
-      var jira = j2m.to_jira("```\nso *no* further **formatting** is done here\n```");
-      jira.should.eql("{code}\nso _no_ further *formatting* is done here\n{code}");
-    });
-
+  describe('codeblock formatting', function () {
     it('should convert language-specific code blocks properly', function () {
       var jira = j2m.to_jira("```javascript\nvar hello = 'world';\n```");
       jira.should.eql("{code:javascript}\nvar hello = 'world';\n{code}");
+    });
+
+    it('should not apply formatting within codeblocks', function () {
+      var jira = j2m.to_jira("```\nso **no** further *formatting* _is_ done ***here***\n```");
+      jira.should.eql("{code}\nso **no** further *formatting* _is_ done ***here***\n{code}");
     });
   });
 

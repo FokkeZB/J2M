@@ -14,7 +14,82 @@ J2M.prototype.jira_to_html = function (str) {
   return marked(this.to_markdown(str));
 };
 
+J2M.prototype.to_jira = function (str) {
+  let hash = splitOutCodeblocks(str, 'toJira');
+  return transformHash(hash, 'toJira')
+};
+
 J2M.prototype.to_markdown = function (str) {
+  let hash = splitOutCodeblocks(str, 'toMarkdown');
+  return transformHash(hash, 'toMarkdown')
+};
+
+const transformHash = function (hash, direction) {
+  let string = ''
+
+  if (direction == 'toMarkdown') {
+    Object.keys(hash).forEach((key) => {
+      if (hash[key]['code']) {
+        string += codeblockToMarkdown(hash[key]['string']);
+      } else {
+        string += toMarkdownFormatting(hash[key]['string']);
+      };
+    });
+  } else {
+    Object.keys(hash).forEach((key) => {
+      if (hash[key]['code']) {
+        string += codeblockToJira(hash[key]['string']);
+      } else {
+        string += toJiraFormatting(hash[key]['string']);
+      };
+    });
+  }
+  return string
+};
+
+const splitOutCodeblocks = function (str, direction) {
+  let hash = {};
+  // hash = {0: {string: 'not code', iscodeblock: false}, 1: {string: ```code```, iscodeblock: true}}
+  let array = [];
+
+  // This block should return an array where each element is either a codeblock or is not
+  if (direction == 'toMarkdown') {
+    array = str.split(/(\{code[^]*?\{code\}|\{noformat[^]*?\{noformat\})/)
+  } else if (direction == 'toJira') {
+    array = str.split(/(```[^]*?```)/)
+  } else {
+    return [str]
+  }
+
+  array.map((string, index) => {
+    hash[index] = {
+      string: string,
+      code: string.includes('```') || string.includes('{code}') || string.includes('{noformat}')
+    }
+  });
+
+  return hash;
+};
+
+const codeblockToMarkdown = function (str) {
+  return str
+    .replace(
+      /\{code(:([a-z]+))?([:|]?(title|borderStyle|borderColor|borderWidth|bgColor|titleBGColor)=.+?)*\}([^]*?)\{code\}/gm, '```$2$5```'
+    )
+    // Pre-formatted text
+    .replace(/{noformat}/g, '```')
+};
+
+const codeblockToJira = function (str) {
+  return str
+    .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function (_match, synt, content) {
+      let code = '{code';
+      if (synt) code += ':' + synt;
+      return code + '}' + content + '{code}';
+    })
+};
+
+const toMarkdownFormatting = function (str) {
   return str
     // Ordered Lists
     .replace(/^[ \t]*(\*+)\s+/gm, function (_match, stars) {
@@ -44,10 +119,6 @@ J2M.prototype.to_markdown = function (str) {
     .replace(/~([^~]*)~/g, '<sub>$1</sub>')
     // Strikethrough
     .replace(/(\s|^)+-(\S+.*?\S)-+/g, '$1~~$2~~')
-    // Code Block
-    .replace(/\{code(:([a-z]+))?([:|]?(title|borderStyle|borderColor|borderWidth|bgColor|titleBGColor)=.+?)*\}([^]*?)\{code\}/gm, '```$2$5```')
-    // Pre-formatted text
-    .replace(/{noformat}/g, '```')
     // Un-named Links
     .replace(/\[([^|]+)\]/g, '<$1>')
     // Named Links
@@ -65,10 +136,9 @@ J2M.prototype.to_markdown = function (str) {
     })
     // remove leading-space of table headers and rows
     .replace(/^[ \t]*\|/gm, '|');
-
 };
 
-J2M.prototype.to_jira = function (str) {
+const toJiraFormatting = function (str) {
   const map = {
     //cite: '??',
     del: '-',
@@ -111,12 +181,6 @@ J2M.prototype.to_jira = function (str) {
     })
     // Other kind of strikethrough
     .replace(/(\s|^)+\~~(.*?)\~~+/g, '$1-$2-')
-    // Named/Un-Named Code Block
-    .replace(/`{3,}(\w+)?((?:\n|[^`])+)`{3,}/g, function (_match, synt, content) {
-      let code = '{code';
-      if (synt) code += ':' + synt;
-      return code + '}' + content + '{code}';
-    })
     // Inline-Preformatted Text
     .replace(/`([^`]+)`/g, '{{$1}}')
     // Named Link

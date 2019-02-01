@@ -120,11 +120,6 @@ describe('to_markdown', function () {
   });
 
   describe('code block formatting', function () {
-    it('should not apply formatting within codeblocks', function () {
-      var markdown = j2m.to_markdown("{code}\nso *no* further _formatting_ is done here\n{code}");
-      markdown.should.eql("```\nso *no* further _formatting_ is done here\n```");
-    });
-
     it('should convert language-specific code blocks properly', function () {
       var markdown = j2m.to_markdown("{code:javascript}\nvar hello = 'world';\n{code}");
       markdown.should.eql("```javascript\nvar hello = 'world';\n```");
@@ -153,6 +148,11 @@ describe('to_markdown', function () {
     it('should convert multiple codeblocks properly', function () {
       var markdown = j2m.to_markdown("{code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code} \n {code:title=Foo.java}\nclass Foo {\n  public static void main() {\n  }\n}\n{code}");
       markdown.should.eql("```\nclass Foo {\n  public static void main() {\n  }\n}\n``` \n ```\nclass Foo {\n  public static void main() {\n  }\n}\n```");
+    });
+
+    it('should not apply formatting within codeblocks', function () {
+      var markdown = j2m.to_markdown("{code}\nso *no* further _formatting_ is done here\n{code}");
+      markdown.should.eql("```\nso *no* further _formatting_ is done here\n```");
     });
   });
 
