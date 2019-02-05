@@ -49,10 +49,9 @@ const transformHash = function (hash, direction) {
 
 const splitOutCodeblocks = function (str, direction) {
   let hash = {};
-  // hash = {0: {string: 'not code', iscodeblock: false}, 1: {string: ```code```, iscodeblock: true}}
   let array = [];
 
-  // This block should return an array where each element is either a codeblock or is not
+  // This block returns an array where each element is either a codeblock or is not
   if (direction == 'toMarkdown') {
     array = str.split(/(\{code[^]*?\{code\}|\{noformat[^]*?\{noformat\})/)
   } else if (direction == 'toJira') {

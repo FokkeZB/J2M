@@ -82,6 +82,10 @@ var html = j2m.md_to_html(md);
 var html = j2m.jira_to_html(jira);
 ```
 
+### Running tests
+
+You can run `yarn test` or `npm test`
+
 ### FAQ
 
 #### Q. Why doesn't this module support conversion of inline markdown?
