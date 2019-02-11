@@ -1,5 +1,4 @@
 var should = require('chai').should();
-// var expect = require('chai').expect;
 var fs = require('fs');
 var path = require('path');
 var j2m = require('../index.js');
