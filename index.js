@@ -39,7 +39,7 @@ const transformHash = function (hash, direction) {
         string += toMarkdownFormatting(hash[key]['string']);
       };
     });
-  } else {
+  } else if (direction == 'toJira'){
     Object.keys(hash).forEach((key) => {
       if (hash[key]['code']) {
         string += codeblockToJira(hash[key]['string']);
@@ -47,6 +47,8 @@ const transformHash = function (hash, direction) {
         string += toJiraFormatting(hash[key]['string']);
       };
     });
+  } else {
+    throw 'Direction is invalid.'
   }
   return string
 };
