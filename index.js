@@ -4,24 +4,28 @@ marked.setOptions({
   smartyPants: true
 });
 
-const J2M = function () { };
+class J2M {
+  constructor(str) {
+    this.str = str;
+  }
 
-J2M.prototype.md_to_html = function (str) {
-  return marked(str);
-};
+  md_to_html(str) {
+    return marked(str);
+  };
 
-J2M.prototype.jira_to_html = function (str) {
-  return marked(this.to_markdown(str));
-};
+  jira_to_html(str) {
+    return marked(this.to_markdown(str));
+  };
 
-J2M.prototype.to_jira = function (str) {
-  let hash = splitOutCodeblocks(str, 'toJira');
-  return transformHash(hash, 'toJira')
-};
+  to_jira(str) {
+    let hash = splitOutCodeblocks(str, 'toJira');
+    return transformHash(hash, 'toJira')
+  };
 
-J2M.prototype.to_markdown = function (str) {
-  let hash = splitOutCodeblocks(str, 'toMarkdown');
-  return transformHash(hash, 'toMarkdown')
+  to_markdown(str) {
+    let hash = splitOutCodeblocks(str, 'toMarkdown');
+    return transformHash(hash, 'toMarkdown')
+  };
 };
 
 const transformHash = function (hash, direction) {
