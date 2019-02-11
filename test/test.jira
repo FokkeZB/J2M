@@ -12,7 +12,6 @@ h6. Smallest heading
 *strong*
 _emphasis_
 {{monospaced}}
-??citation??
 -deleted-
 +inserted+
 ^superscript^
@@ -48,9 +47,10 @@ _*Should be bold AND italic*_
 # Back to first level li
 
 * Here's _italic_ inside li
-* here's *bold* inside li
+* Here's *bold* inside li
+* Here's *bold* and _italic_ inside li
 * Here's _*bold + italic*_ inside li
-** Here they are in one line indented: _italic_ *bold*
+** Here they are in one line indented: _italic_ and *bold*
 
 bq. Here's a long single-paragraph block quote. It should look pretty and stuff.
 

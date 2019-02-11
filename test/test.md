@@ -12,7 +12,6 @@
 **strong**
 *emphasis*
 `monospaced`
-<cite>citation</cite>
 ~~deleted~~
 <ins>inserted</ins>
 <sup>superscript</sup>
@@ -20,7 +19,7 @@
 
 ```javascript
 var hello = 'world';
-{code}
+```
 
 <http://google.com>
 [Google](http://google.com)
@@ -28,9 +27,9 @@ var hello = 'world';
 GitHub Flavor
 ~~deleted~~
 
-{code}
+```
   preformatted piece of text
-  so *no_ further _formatting* is done here
+  so _no_ further _formatting_ is done here
 ```
 
 ***Should be bold AND italic***
@@ -48,9 +47,10 @@ GitHub Flavor
 1. Back to first level li
 
 * Here's *italic* inside li
-* here's **bold** inside li
+* Here's **bold** inside li
+* Here's **bold** and *italic* inside li
 * Here's ***bold + italic*** inside li
-  * Here they are in one line indented: *italic* **bold**
+  * Here they are in one line indented: *italic* and **bold**
 
 > Here's a long single-paragraph block quote. It should look pretty and stuff.
 
