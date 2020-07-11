@@ -58,7 +58,13 @@
 			return lines.join("\n");
 		});
 
-		input = input.replace(/!([^\n\s]+)!/, '![]($1)');
+		// Images with alt= among their parameters
+		input = input.replace(/!([^|\n\s]+)\|([^\n!]*)alt=([^\n!\,]+?)(,([^\n!]*))?!/g, '![$3]($1)');
+		// Images with just other parameters (ignore them)
+		input = input.replace(/!([^|\n\s]+)\|([^\n!]*)!/g, '![]($1)');
+		// Images without any parameters or alt
+		input = input.replace(/!([^\n\s!]+)!/g, '![]($1)'); 
+
 		input = input.replace(/\[([^|]+)\|(.+?)\]/g, '[$1]($2)');
 		input = input.replace(/\[(.+?)\]([^\(]+)/g, '<$1>$2');
 
@@ -184,7 +190,11 @@
 
 		input = input.replace(/~~(.*?)~~/g, '-$1-');
 
-		input = input.replace(/!\[[^\]]+\]\(([^)]+)\)/g, '!$1!');
+		// Images without alt
+		input = input.replace(/!\[\]\(([^)\n\s]+)\)/g, '!$1!');
+		// Images with alt
+		input = input.replace(/!\[([^\]\n]+)\]\(([^)\n\s]+)\)/g, '!$2|alt=$1!');
+		
 		input = input.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]');
 		input = input.replace(/<([^>]+)>/g, '[$1]');
 
