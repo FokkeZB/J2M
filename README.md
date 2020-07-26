@@ -1,7 +1,3 @@
-> **UNMAINTAINED** This Project Is No Longer Maintained
-
--------------------------------------------------------
-
 # J2M
 ## JIRA to MarkDown text format converter
 Convert from JIRA text formatting to GitHub Flavored MarkDown and back again. Just because I got tired of reformatting text between GitHub (PR's) and JIRA.
